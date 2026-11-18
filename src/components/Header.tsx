@@ -29,19 +29,22 @@ const HUSKY_LOGIN = {
 
 // Featured thumbnail cards in the overlay bottom-right stack:
 // latest podcast episode + first Futures article (image left, title right)
-const FEATURED_CARDS = [
+type FeaturedCard = { title: string; img: string; href: string; label?: string; logo?: string; tone: string };
+const FEATURED_CARDS: FeaturedCard[] = [
   {
     title: 'Building Effective Readers: The Science of Learning to Read',
     img: 'https://imaginewhatspossible.org/wp-content/uploads/2026/10/iwp-ep13-featuredimage.jpg',
     href: 'https://imaginewhatspossible.org/home/',
-    label: "Imagine What's Possible Podcast",
+    /* White SVG logo replaces the text label, top-left of the card (user request) */
+    logo: 'https://imaginewhatspossible.org/wp-content/uploads/2026/01/Podcast-Art_White.svg',
     tone: 'tone-blue',
   },
   {
-    title: "Coffee, Crayfish, and Community: Tyson Zhang ’18 building Rural Economies with the Peace Corps & Keeping People First",
+    title: "Coffee, Crayfish, and Community: Tyson Zhang '18 Building Rural Economies with the Peace Corps & Keeping People First",
     img: 'https://futures.flinthill.org/wp-content/uploads/2026/10/Tyson-Zhang-for-article-banner.jpg',
     href: 'https://futures.flinthill.org/peacecorps-coffee-crayfish-community/',
-    label: 'Flint Hill Futures',
+    /* Logo replaces the text label, top-left of the card (same treatment as podcast) */
+    logo: 'https://futures.flinthill.org/wp-content/uploads/2019/11/Alumni-Site-Logo2-768x128.png',
     tone: 'tone-green',
   },
 ];
@@ -51,7 +54,8 @@ const HIGHLIGHTS_CARD = {
   title: 'Clubs at Flint Hill: How a Vision Statement Actually Lives in the Hallways',
   img: 'https://www.flinthill.org/wp-content/uploads/2026/11/55618198238_ece76b8047_k.jpg',
   href: 'https://www.flinthill.org/blog/clubs-at-flint-hill-how-a-vision-statement-actually-lives-in-the-hallways/',
-  label: 'Husky Highlights',
+  labelA: 'Husky',
+  labelB: 'Highlights',
   tone: 'tone-white',
 };
 
@@ -220,10 +224,10 @@ export const Header: React.FC = () => {
     return () => document.removeEventListener('keydown', onKey);
   }, [overlayOpen]);
 
-  // Open on ABOUT US by default each time the menu opens (seasons collapsed)
+  // Open with NO section selected — user picks one; seasons collapsed each time
   useEffect(() => {
     if (overlayOpen) {
-      setActiveSection('About Us');
+      setActiveSection(null);
       setSeasonOpen({});
     }
   }, [overlayOpen]);
@@ -267,6 +271,19 @@ export const Header: React.FC = () => {
               <span className="fhs-husky-label">Husky Hub</span>
               <img src={HUSKY_LOGIN.img} alt="" width={24} height={25} />
             </a>
+
+            {/* Mobile only: search + Husky Hub icons (no hover labels), right of the logo / left of the burger-X */}
+            <span className="fhs-bar-icons">
+              <a href={SEARCH_URL} target="_blank" rel="noopener noreferrer" aria-label="Search">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" />
+                  <line x1="21" y1="21" x2="16.5" y2="16.5" />
+                </svg>
+              </a>
+              <a href={HUSKY_LOGIN.url} target="_blank" rel="noopener noreferrer" aria-label="Husky Hub">
+                <img src={HUSKY_LOGIN.img} alt="" width={30} height={31} />
+              </a>
+            </span>
 
             <button
               type="button"
@@ -318,18 +335,13 @@ export const Header: React.FC = () => {
 
           </nav>
 
-          {/* Top-left: sub-links of the selected section */}
+          {/* Right of main column: sub-links of the selected section */}
           {/* data-lenis-prevent: let this list scroll natively — Lenis smooth-scroll would otherwise swallow the wheel events */}
           <nav className={`fhs-menu-overlay-sub${activeItem ? ' is-visible' : ''}`} aria-label="Section menu" data-lenis-prevent>
             {/* key={activeSection}: remounts on every section switch so the slide-in animation replays */}
             <div key={activeSection} className="fhs-menu-overlay-sub-inner">
               {activeItem?.links && (
               <>
-                {activeItem.href && (
-                  <a href={activeItem.href} target="_blank" rel="noopener noreferrer">
-                    {activeItem.label} Overview
-                  </a>
-                )}
                 {activeItem.links.map((link) => (
                   <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
                     {link.label}
@@ -390,7 +402,7 @@ export const Header: React.FC = () => {
             rel="noopener noreferrer"
           >
             <img src={HIGHLIGHTS_CARD.img} alt="" loading="lazy" />
-            <span className={`fhs-menu-dock-card-label ${HIGHLIGHTS_CARD.tone}`}>{HIGHLIGHTS_CARD.label}</span>
+            <span className="fhs-menu-dock-card-label fhs-hh">{HIGHLIGHTS_CARD.labelA} <span>{HIGHLIGHTS_CARD.labelB}</span></span>
             <span>{HIGHLIGHTS_CARD.title}</span>
           </a>
 
@@ -400,7 +412,11 @@ export const Header: React.FC = () => {
               {FEATURED_CARDS.map((c) => (
                 <a key={c.title} href={c.href} target="_blank" rel="noopener noreferrer" className={`fhs-menu-dock-card ${c.tone}`}>
                   <img src={c.img} alt="" loading="lazy" />
-                  <span className={`fhs-menu-dock-card-label ${c.tone}`}>{c.label}</span>
+                  {c.logo ? (
+                    <img className="fhs-menu-dock-card-logo" src={c.logo} alt="" loading="lazy" />
+                  ) : (
+                    <span className={`fhs-menu-dock-card-label ${c.tone}`}>{c.label}</span>
+                  )}
                   <span>{c.title}</span>
                 </a>
               ))}
@@ -409,6 +425,12 @@ export const Header: React.FC = () => {
             <span className="fhs-menu-dock-divider" aria-hidden="true" />
 
             <div className="fhs-menu-dock-links">
+              {/* Mobile only (this list is hidden on desktop): quick links moved here, above Flint Hill Futures */}
+              {['Apply Now', 'Visit Campus', 'Request Info'].map((label) => (
+                <a key={label} href={utilLink(label).href} target="_blank" rel="noopener noreferrer">
+                  {label}
+                </a>
+              ))}
               {['Flint Hill Futures', 'Podcast', 'Summer on the Hill'].map((label) => (
                 <a key={label} href={utilLink(label).href} target="_blank" rel="noopener noreferrer">
                   {label}
@@ -419,18 +441,6 @@ export const Header: React.FC = () => {
               </a>
             </div>
 
-            {/* Mobile only: search + Husky icons (previous mobile layout) */}
-            <span className="fhs-menu-dock-icons">
-              <a className="fhs-site-header-search fhs-dock-search" href={SEARCH_URL} target="_blank" rel="noopener noreferrer" aria-label="Search">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <line x1="21" y1="21" x2="16.5" y2="16.5" />
-                </svg>
-              </a>
-              <a className="fhs-menu-overlay-husky fhs-dock-husky" href={HUSKY_LOGIN.url} target="_blank" rel="noopener noreferrer" aria-label="Husky Hub">
-                <img src={HUSKY_LOGIN.img} alt="" width={34} height={35} />
-              </a>
-            </span>
           </nav>
         </div>
       )}

@@ -1,3 +1,6 @@
+@import "../../Styles/fh-tokens.css";
+@import "../../Styles/fh-menu.css";
+
 /* ============================================================
    FLINT HILL DESIGN SYSTEM — Upper School project
    Every value below is extracted from the live JK–12 homepage
@@ -18,10 +21,7 @@ html, body {
   position: relative;
   /* Contain anything wider than the viewport — no horizontal scroll, ever */
   overflow-x: clip !important;
-}
-
-/* ---------- Cursive accent — uploaded woff2 (Aurelly Signature Alt) ---------- */
-@font-face {
+}@font-face {
   font-family: "Aurelly Signature Alt";
   src: url("https://flinthillstg.wpenginepowered.com/home/Aurelly_Signature_Alt.woff2") format("woff2");
   font-weight: 100 900; /* single file — serve it for any requested weight */
@@ -31,21 +31,21 @@ html, body {
 
 /* ---------- TOKENS (exact homepage values) ---------- */
 :root {
-  /* Brand palette */
-  --navy: #00497C;          /* deep blue — section fields, headings on white */
-  --blue: #0066A6;          /* main blue */
-  --sky: #008BCE;           /* light blue accent (Middle School tab) */
-  --cyan: #17B0D1;          /* light cyan accent */
-  --emerald: #009357;       /* BRAND GREEN — primary action color */
-  --forest: #006b36;        /* dark green field */
-  --kicker-green: #69B845;  /* light green — eyebrows on dark fields */
 
-  /* Neutrals */
-  --ink: #152A3B;           /* near-black text on white */
-  --slate: #48607A;         /* body copy on white */
-  --mist: #F3F8FB;          /* light section background */
-  --gray: #EFEFEF;          /* neutral gray field (Applying to Flint Hill) */
-  --line: #DCE8F0;          /* hairlines / borders on white */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* Type — brandon-grotesque (Typekit) + Aurelly Signature Alt (uploaded woff2);
      lindsey-signature / Caveat kept as fallbacks */
@@ -105,10 +105,10 @@ body {
 .fh-title {
   margin: 0;
   font-family: var(--sans);
-  font-size: clamp(2.4rem, 5vw, 4.25rem);
-  font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: .01em;
+  font-size: var(--fh-title-size);
+  font-weight: var(--fh-title-weight);
+  line-height: var(--fh-title-lh);
+  letter-spacing: var(--fh-title-tracking);
   text-align: left;
   color: inherit;
 }
@@ -118,9 +118,7 @@ body {
 /* Connect With Us must span the SAME full content width as the Find Where
    You Belong grid above it (which is uncapped). The shared 1600px cap on
    .ae-block was centering this section in from both sides on large displays. */
-.ae-team .ae-block { max-width: none; }
-/* Some homepage sections run slightly larger on phones — opt in with this */
-@media (max-width: 899px) {
+.ae-team .ae-block { max-width: none; }@media (max-width: 899px) {
   .fh-title--mobile-lg { font-size: clamp(30px, 9.5vw, 46px); }
 }
 
@@ -131,10 +129,10 @@ body {
   max-width: min(980px, 100%);
   text-align: left;
   font-family: var(--sans);
-  font-weight: 400;
-  font-size: clamp(1.05rem, 1.9vw, 1.7rem);
-  line-height: 1.45;
-  letter-spacing: .02em;
+  font-weight: var(--fh-subtitle-weight);
+  font-size: var(--fh-subtitle-size);
+  line-height: var(--fh-subtitle-lh);
+  letter-spacing: var(--fh-subtitle-tracking);
   color: inherit;
 }
 .fh-section:not(.fh-section--navy):not(.fh-section--green) .fh-subtitle { color: var(--slate); }
@@ -143,20 +141,20 @@ body {
 .fh-eyebrow {
   margin: 0;
   font-family: var(--sans);
-  font-size: clamp(0.78rem, 1vw, 0.95rem);
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-size: var(--fh-eyebrow-size);
+  font-weight: var(--fh-eyebrow-weight);
+  letter-spacing: var(--fh-eyebrow-tracking);
   text-transform: uppercase;
 }
-.fh-eyebrow--on-dark  { color: var(--kicker-green); } /* on navy/green fields */
-.fh-eyebrow--on-light { color: var(--emerald); }      /* on white/mist fields */
+.fh-eyebrow--on-dark  { color: var(--fh-eyebrow-on-dark); } /* on navy/green fields */
+.fh-eyebrow--on-light { color: var(--fh-eyebrow-on-light); }      /* on white/mist fields */
 
 /* Running body copy */
 .fh-body {
   margin: 0;
-  font-size: clamp(1rem, 1.3vw, 1.25rem);
-  line-height: 1.65;
-  letter-spacing: .01em;
+  font-size: var(--fh-body-size);
+  line-height: var(--fh-body-lh);
+  letter-spacing: var(--fh-body-tracking);
 }
 .fh-section--navy .fh-body,
 .fh-section--green .fh-body { color: rgba(255, 255, 255, 0.94); }
@@ -164,7 +162,7 @@ body {
 /* Cursive accent word (lindsey-signature, Caveat fallback) — matches homepage kickers */
 .fh-cursive {
   font-family: var(--cursive);
-  font-weight: 600; /* semibold — same as homepage cursive words */
+  font-weight: var(--fh-cursive-weight); /* semibold — same as homepage cursive words */
 }
 
 /* ============================================================
@@ -326,19 +324,9 @@ body {
   height: 100%;
   object-fit: cover;
   clip-path: circle(30vw at calc(100% - 20.5vw) 50%);
-}
-
-/* Tablet — hero is content-driven there (height varies with text wrap), so the
-   desktop geometry can't be pinned exactly; this reads as the SAME enlarged
-   circle: deepest point at mid-height just inside the column's left edge, ~13–30%
-   sweep off top/bottom-left, right edge full-bleed (far corners verified inside
-   the circle across 900–1179px). User-tuned value. */
-@media (max-width: 1179px) {
+}@media (max-width: 1179px) {
   .us-hero__photo { clip-path: circle(34vw at calc(100% - 16vw) 50%); }
-}
-/* Mobile — photo is a wide, short strip below the text; a left-edge arc would
-   bite too deep into its corners, so it stays a clean full-width rectangle. */
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .us-hero__photo { clip-path: none; }
 }
 
@@ -548,10 +536,7 @@ body {
   border-color: var(--blue);
   color: var(--blue);
 }
-.us-num-cta:hover { background: rgba(0, 102, 166, 0.08); }
-
-/* Mobile — single column stack; hairlines become top borders between cells */
-@media (max-width: 899px) {
+.us-num-cta:hover { background: rgba(0, 102, 166, 0.08); }@media (max-width: 899px) {
   .us-num-grid { grid-template-columns: 1fr; }
   .us-num-cell--mid,
   .us-num-cell--c3t,
@@ -560,11 +545,7 @@ body {
   .us-hair::after { display: none; }
   /* every cell after the first gets a top hairline instead */
   .us-num-grid > .stat + .stat { border-top: 1px solid rgba(0, 73, 124, 0.35); }
-}
-
-/* Mobile — single column stack (Visit Campus treatment): photo drops below the
-   copy as a 4:3 crop of the source */
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .us-hero__inner {
     grid-template-columns: minmax(0, 1fr); /* single column — text gets full width on phones */
   }
@@ -572,24 +553,7 @@ body {
   /* Photo drops below the copy as a 4:3 crop of the square source (explicit box —
      the stretch-to-text sizing doesn't apply in single-column mode) */
   .us-hero__photo { height: auto; aspect-ratio: 4 / 3; }
-}
-
-/* ============================================================
-   DESKTOP (>=1180px) — MATCH THE APPLY & ENGAGE HERO HEIGHT EXACTLY
-   .ae-hero (E:\apply-engage) is content-driven: pad-top + title + its
-   margin-bottom + the 620×scale composition box. We mirror that exact
-   formula as a height here so both heroes are pixel-equal at every
-   viewport (verified against measured renders at 1920/2560/1600 widths).
-   KEEP IN SYNC with .ae-hero / .ae-composition in E:\apply-engage\src\design.css.
-
-   Mechanics:
-     • padding-bottom → 0 and --us-pad-bottom → 0 so the photo's full-bleed
-       anchor lands exactly on the hero's bottom edge;
-     • explicit height (NOT min-height, NOT flex): Chrome refuses to resolve
-       an abspos child's `bottom` against a containing block whose height is
-       "indefinite" — both min-height and flex-grown items count as such.
-   ============================================================ */
-@media (min-width: 1180px) {
+}@media (min-width: 1180px) {
   .us-hero {
     /* FULL BLEED — no vertical padding at any width (user request). */
     --us-pad-bottom: 0;
@@ -629,590 +593,7 @@ body {
    ============================================================ */
 .us-hero__col-a {
   padding-left: calc(var(--fh-edge) + max(0px, (100vw - var(--fh-content-max)) / 2));
-}
-
-/* ============ SITE HEADER (fixed overlay, minimizes on scroll) ============ */
-/* =====================================================================
-   SITE HEADER — redesigned
-   Logo (max 180px, left) + hamburger + stacked quick links (right).
-   Hamburger opens a full-page navy menu overlay: section image top-left,
-   main items stacked top-right, vertical center line, horizontal divider
-   over the left half with sub-links beneath it, bottom-left link stack.
-   ===================================================================== */
-.fhs-fpt-root .fhs-site-header {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 1200 !important;
-  /* Over the hero on load: dark translucent wash so white menu text reads clearly */
-  background: rgba(13, 27, 42, 0.35) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  backdrop-filter: blur(10px) !important;
-  transition: background-color 0.3s ease;
-}
-/* Menu overlay open — the header bar blends into the navy takeover */
-.fhs-fpt-root .fhs-site-header.is-menu-open {
-  background: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-/* Collapsed after scrolling past the hero — only the floating hamburger remains */
-.fhs-fpt-root .fhs-site-header.is-compact {
-  background: transparent !important;
-  -webkit-backdrop-filter: none !important;
-  backdrop-filter: none !important;
-}
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-body { padding: 0.5rem 1.25rem !important; }
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-logo {
-  width: 0 !important;
-  max-width: 0 !important;
-  opacity: 0 !important;
-  overflow: hidden !important;
-}
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-right { gap: 0 !important; }
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-quick { display: none !important; }
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-search { display: none !important; }
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-summer,
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-divider,
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-husky { display: none !important; }
-
-/* Header bar (desktop): SUMMER ON THE HILL | divider | HUSKY HUB + icon — left of burger/X.
-   Summer stays hidden until the full-page menu opens; Husky Hub is always in the bar, right of search. */
-.fhs-fpt-root .fhs-bar-summer { display: none !important; }
-.fhs-fpt-root .fhs-bar-divider { display: none !important; }
-.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-summer { display: inline-block !important; }
-.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-divider { display: block !important; }
-.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-husky { display: inline-flex !important; }
-/* Menu opened FROM compact mode — restore the full bar (search + summer/husky) with normal spacing,
-   and size the Husky head to match the X in its 48px circle. */
-.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-right { gap: clamp(1.25rem, 2vw, 2.25rem) !important; }
-.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-search { display: inline-flex !important; }
-.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-quick { display: flex !important; }
-.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-logo { width: 220px !important; max-width: 220px !important; opacity: 1 !important; }
-.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-bar-husky img { width: 30px !important; height: 31px !important; }
-/* Desktop page-loaded bar: Husky Hub (right of search) + its divider always visible.
-   Scoped to ≥900px so the mobile bar keeps its current layout. */
-@media (min-width: 900px) {
-  .fhs-fpt-root .fhs-bar-husky { display: inline-flex !important; }
-  .fhs-fpt-root .fhs-husky-divider { display: block !important; }
-}
-
-.fhs-fpt-root .fhs-bar-summer,
-.fhs-fpt-root .fhs-bar-husky {
-  font-size: 0.7rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  white-space: nowrap !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-bar-summer:hover,
-.fhs-fpt-root .fhs-bar-husky:hover { color: #17B0D1 !important; }
-.fhs-fpt-root .fhs-bar-divider {
-  width: 1px !important;
-  height: 18px !important;
-  background: rgba(255, 255, 255, 0.6) !important;
-  flex: none !important;
-  margin: 0 1.1rem !important; /* breathing room on both sides of the divider */
-}
-.fhs-fpt-root .fhs-bar-husky {
-  /* display is controlled by the open-menu toggle above — do NOT set it here */
-  align-items: center !important;
-  gap: 0.45rem !important;
-}
-.fhs-fpt-root .fhs-bar-husky img { width: 24px !important; height: 25px !important; display: block !important; }
-/* Translucent circle behind the icon */
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger {
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 50% !important;
-  background: rgba(255, 255, 255, 0.7) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  backdrop-filter: blur(10px) !important;
-  box-shadow: 0 1px 8px rgba(21, 42, 59, 0.2) !important;
-}
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger:hover { background: rgba(255, 255, 255, 0.9) !important; }
-/* Dark bars over the white circle */
-.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger span { background: var(--ink) !important; }
-
-.fhs-fpt-root .fhs-site-header-body {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 2rem !important;
-  padding: 0.5rem 3.25rem !important;
-}
-
-/* Logo — max-width 220px at ANY viewport width */
-.fhs-fpt-root .fhs-site-header-logo {
-  display: inline-flex !important;
-  flex: none !important;
-  width: 220px !important;
-  min-width: 0 !important;
-  max-width: 220px !important;
-  transition: opacity 0.3s ease, width 0.45s ease;
-}
-.fhs-fpt-root .fhs-site-header-logo img {
-  width: 100% !important;
-  height: auto !important;
-  display: block !important;
-}
-
-/* Right group: hamburger, then the stacked quick links to its right */
-.fhs-fpt-root .fhs-site-header-right {
-  display: flex !important;
-  align-items: center !important;
-  gap: clamp(1.25rem, 2vw, 2.25rem) !important;
-}
-
-/* Stacked quick links — same type as the old utility row, tighter line spacing, left-aligned */
-.fhs-fpt-root .fhs-site-header-quick {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 0.1rem !important;
-}
-.fhs-fpt-root .fhs-site-header-quick a {
-  font-size: 0.72rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  white-space: nowrap !important;
-  line-height: 1.55 !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-site-header-quick a:hover { color: #009357 !important; }
-/* Desktop: inline row left of the search icon, small dividers between the links */
-@media (min-width: 900px) {
-  .fhs-fpt-root .fhs-site-header-quick {
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 0 !important;
-  }
-  .fhs-fpt-root .fhs-quick-divider {
-    width: 1px !important;
-    height: 14px !important;
-    background: rgba(255, 255, 255, 0.35) !important;
-    flex: none !important;
-    margin: 0 0.9rem !important;
-  }
-}
-/* Mobile keeps the stacked layout — hide the inline dividers */
-@media (max-width: 899px) {
-  .fhs-fpt-root .fhs-quick-divider { display: none !important; }
-}
-
-/* Hamburger — always visible, white bars over the hero wash */
-.fhs-fpt-root .fhs-site-header-burger {
-  display: inline-flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 5px !important;
-  width: 44px !important;
-  height: 44px !important;
-  background: transparent !important;
-  border: none !important;
-  cursor: pointer !important;
-}
-.fhs-fpt-root .fhs-site-header-burger span {
-  display: block !important;
-  width: 24px !important;
-  height: 2.5px !important;
-  background: #ffffff !important;
-  border-radius: 2px !important;
-  transition: transform 0.25s ease, opacity 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
-.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(2) { opacity: 0; }
-.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
-
-/* Search icon — header bar, left of the close (X) button */
-.fhs-fpt-root .fhs-site-header-search {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: transparent !important;
-  border: none !important;
-  cursor: pointer !important;
-  color: #ffffff !important;
-  padding: 0.2rem !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-site-header-search:hover { color: #17B0D1 !important; }
-/* SEARCH label — left of the icon. Icon only by default; text appears on hover in BOTH
-   the page-loaded bar and the full-page menu. */
-.fhs-fpt-root .fhs-search-label {
-  display: none !important;
-  font-size: 0.7rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.12em !important;
-  text-transform: uppercase !important;
-}
-.fhs-fpt-root .fhs-site-header-search:hover { gap: 0.45rem !important; }
-.fhs-fpt-root .fhs-site-header-search:hover .fhs-search-label { display: inline-block !important; }
-/* HUSKY HUB label — same pattern as SEARCH: icon only, text on hover (both states). */
-.fhs-fpt-root .fhs-husky-label {
-  display: none !important;
-}
-.fhs-fpt-root .fhs-bar-husky:hover .fhs-husky-label { display: inline-block !important; }
-
-/* =====================================================================
-   FULL-PAGE MENU OVERLAY (navy takeover)
-   ===================================================================== */
-.fhs-fpt-root .fhs-menu-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  z-index: 1199 !important; /* just under the header bar so logo + X stay usable */
-  background: #00497C !important;
-  overflow-y: auto !important;
-  animation: fhsMenuFade 0.3s ease;
-}
-
-/* Bottom-left image — one layer per section, cross-fading with the selection.
-   Flush to the left edge, extends to the center vertical line and the bottom. */
-.fhs-fpt-root .fhs-menu-overlay-img {
-  display: none !important; /* removed per request — no section images in the full-page menu */
-  position: absolute !important;
-  left: 0 !important;
-  top: calc(54vh + 1.5rem) !important;
-  bottom: 0 !important;
-  width: 50vw !important;
-  overflow: hidden !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-img-layer {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  opacity: 0 !important;
-  transition: opacity 0.45s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-img-layer.is-active { opacity: 1 !important; }
-
-/* Vertical white line down the middle — stops short of top & bottom */
-.fhs-fpt-root .fhs-menu-overlay-vline {
-  position: absolute !important;
-  left: 50% !important;
-  top: 9vh !important;
-  bottom: auto !important;
-  height: calc(41vh) !important; /* stops at mid-page — upper half only */
-  width: 1px !important;
-  background: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Top-right main items — stacked, larger type */
-.fhs-fpt-root .fhs-menu-overlay-main {
-  position: absolute !important;
-  top: 11vh !important;
-  left: calc(50% + 4vw) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: clamp(0.35rem, 1.1vh, 0.9rem) !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-main-item {
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-  cursor: pointer !important;
-  font-size: clamp(1.5rem, 2.3vw, 2.4rem) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  line-height: 1.15 !important;
-  transition: color 0.2s ease, transform 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-main-item:hover { color: #6FD3F2 !important; }
-.fhs-fpt-root .fhs-menu-overlay-main-item.is-active { color: #17B0D1 !important; transform: translateX(8px); }
-/* Search + Husky Login icons — under GIVING, side by side, enlarged */
-.fhs-fpt-root .fhs-menu-overlay-main-icons {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.4rem !important;
-  margin-top: 0.9rem !important;
-}
-
-/* Top-left sub-links — appear when a section is selected */
-.fhs-fpt-root .fhs-menu-overlay-sub {
-  position: absolute !important;
-  left: 6vw !important;
-  top: 11vh !important;
-  width: min(34vw, 540px) !important;
-  max-height: 41vh !important;
-  overflow-y: auto !important;
-  /* clip the slide-in travel so no horizontal scrollbar flashes at the bottom */
-  overflow-x: hidden !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  /* Fades in sliding from the right (toward the clicked main item) into place on the left */
-  transform: translateX(48px) !important;
-  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(.3,.7,.4,1), visibility 0s linear .25s !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-sub.is-visible {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: translateX(0) !important;
-  transition-delay: 0s !important;
-}
-/* Replays on every section switch — the inner div remounts (keyed by activeSection in Header.tsx) */
-@keyframes fhsSubIn {
-  from { opacity: 0; transform: translateX(48px); }
-  to   { opacity: 1; transform: none; }
-}
-.fhs-fpt-root .fhs-menu-overlay-sub-inner { animation: fhsSubIn 0.32s cubic-bezier(.3,.7,.4,1) both; }
-.fhs-fpt-root .fhs-menu-overlay-sub a {
-  display: block !important;
-  padding: 0.55rem 0 !important;
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
-  transition: color .18s ease, padding-left .18s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-sub a:hover { color: #17B0D1 !important; padding-left: 4px !important; }
-/* Athletics season accordions — head row + chevron, teams expand beneath */
-.fhs-fpt-root .fhs-menu-overlay-season-head {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 1rem !important;
-  width: 100% !important;
-  background: none !important;
-  border: none !important;
-  cursor: pointer !important;
-  padding: 0.5rem 0 !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  color: #9fe8c7 !important;
-  margin-top: 0.6rem !important;
-  transition: color .2s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-season-head:hover { color: #17B0D1 !important; }
-.fhs-fpt-root .fhs-menu-overlay-season-chev {
-  flex: 0 0 auto !important;
-  width: 12px !important;
-  height: 12px !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  transition: transform 0.25s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-season-head.is-open .fhs-menu-overlay-season-chev { transform: rotate(180deg); }
-/* Athletics team links stay small */
-.fhs-fpt-root .fhs-menu-overlay-season-teams a { font-size: 0.82rem !important; }
-
-/* Dock — LOWER-RIGHT quadrant, horizontal row: [card | card] | divider | links (desktop) */
-.fhs-fpt-root .fhs-menu-dock {
-  position: absolute !important;
-  right: 0 !important; /* group flush to the screen edge — Futures image goes all the way over */
-  width: calc(44vw - 1rem) !important; /* definite width — card content is absolutely positioned, so shrink-to-fit would collapse to 0 */
-  top: calc(62vh + 1rem) !important; /* lower band starts further down — shorter bottom half */
-  bottom: 0 !important;              /* …and fills to the page bottom */
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  gap: 1.25rem !important;
-  max-width: calc(44vw - 1rem) !important; /* stay fully right of the section photo (which ends at 50vw) */
-}
-.fhs-fpt-root .fhs-menu-dock-cards {
-  display: flex !important;
-  flex-direction: row !important; /* cards side by side */
-  gap: 1.25rem !important;
-  align-items: stretch !important;
-  width: 100% !important;
-}
-.fhs-fpt-root .fhs-menu-dock-card {
-  position: relative !important;
-  display: block !important;
-  overflow: hidden !important;
-  flex: 1 1 0 !important; /* both cards share the space evenly */
-  min-width: 0 !important;
-  text-decoration: none !important;
-}
-.fhs-fpt-root .fhs-menu-dock-card img {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important; /* image fills the whole card, title overlays on top */
-  object-fit: cover !important;
-  border-radius: 0 !important;
-  background: rgba(255, 255, 255, 0.14) !important;
-  transition: transform 0.45s ease !important;
-}
-.fhs-fpt-root .fhs-menu-dock-card:hover img { transform: scale(1.06); }
-.fhs-fpt-root .fhs-menu-dock-card span {
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important; /* title sits at the bottom of the image */
-  padding: 2.2rem 1rem 0.8rem !important; /* tighter for the shorter cards */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0) 100%) !important;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.04em !important; /* Title Case — no all-caps */
-  text-transform: none !important;
-  line-height: 1.45 !important;
-  white-space: normal !important;
-  color: #ffffff !important;
-}
-.fhs-fpt-root .fhs-menu-dock-card:hover span { color: #17B0D1 !important; }
-/* Futures card: hover title matches its FLINT HILL FUTURES label (light green) */
-.fhs-fpt-root .fhs-menu-dock-card.tone-green:hover span { color: #69B845 !important; }
-/* Top-left brand label over each card image (podcast = light blue, futures = light green) */
-/* > span.fhs-... specificity must beat the card title rule (.fhs-menu-dock-card span),
-   which otherwise leaks padding-top:2.8rem + gradient background into the label */
-.fhs-fpt-root .fhs-menu-dock-card > span.fhs-menu-dock-card-label {
-  position: absolute !important;
-  top: 0.35rem !important;
-  left: 0.6rem !important;
-  right: auto !important;
-  padding: 0 !important;
-  background: none !important;
-  z-index: 2 !important;
-  font-size: 0.6rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  line-height: 1.35 !important;
-  pointer-events: none !important;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6) !important;
-}
-/* Tone colors — declared in CSS (not inline) so they beat the card title's color:#fff !important */
-.fhs-fpt-root .fhs-menu-dock-card > span.tone-blue { color: #17B0D1 !important; }
-.fhs-fpt-root .fhs-menu-dock-card > span.tone-green { color: #69B845 !important; }
-/* Husky Highlights card — navy label, stays navy on hover (article title below keeps its own white hover) */
-.fhs-fpt-root .fhs-menu-dock-card > span.tone-white { color: #00497C !important; }
-.fhs-fpt-root .fhs-menu-dock-card.tone-white:hover span { color: #ffffff !important; }
-.fhs-fpt-root .fhs-menu-dock-card.tone-white:hover > span.fhs-menu-dock-card-label { color: #00497C !important; }
-/* Bottom-left quadrant (desktop only): latest Husky Highlights article, same band as the right dock */
-@media (min-width: 900px) {
-  .fhs-fpt-root .fhs-menu-dock-left {
-    position: absolute !important;
-    left: 0 !important; /* flush to the left edge, filling the quadrant like the old section photo did */
-    top: calc(62vh + 1rem) !important; /* same band as the right-side dock cards */
-    bottom: 0 !important;
-    width: calc(44vw - 1rem) !important;
-  }
-}
-@media (max-width: 899px) {
-  .fhs-fpt-root .fhs-menu-dock-left { display: none !important; } /* mobile keeps the previous simple menu */
-}
-.fhs-fpt-root .fhs-menu-dock-divider { display: none !important; } /* desktop: thumbnails only */
-.fhs-fpt-root .fhs-menu-dock-links {
-  display: none !important; /* desktop: removed — Summer moved under Husky Hub; mobile re-enables below */
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 0.4rem !important;
-}
-.fhs-fpt-root .fhs-menu-dock a {
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  white-space: nowrap !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-menu-dock a:hover { color: #17B0D1 !important; }
-/* Search + Husky icons row — mobile only (desktop keeps search in the bar, Husky under GIVING) */
-.fhs-fpt-root .fhs-menu-dock-icons { display: none !important; }
-.fhs-fpt-root .fhs-menu-overlay-husky img {
-  width: 50px !important;
-  height: 52px !important;
-  display: block !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-husky-label {
-  font-size: 1.1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  white-space: nowrap !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-menu-overlay-husky-label:hover { color: #17B0D1 !important; }
-/* Summer on the Hill — under Husky Hub in the main column (desktop) */
-.fhs-fpt-root .fhs-summer-link {
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  color: #ffffff !important;
-  white-space: nowrap !important;
-  transition: color 0.2s ease !important;
-}
-.fhs-fpt-root .fhs-summer-link:hover { color: #17B0D1 !important; }
-@keyframes fhsMenuFade {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-/* Narrower screens — tighter paddings, smaller overlay type */
-@media (max-width: 899px) {
-  .fhs-fpt-root .fhs-site-header-body { padding: 0.7rem 1.25rem !important; gap: 1rem !important; }
-  .fhs-fpt-root .fhs-site-header-logo { width: min(46vw, 190px) !important; max-width: min(46vw, 190px) !important; }
-  .fhs-fpt-root .fhs-menu-overlay-img { display: none !important; }
-  .fhs-fpt-root .fhs-menu-overlay-main {
-    position: static !important;
-    margin: 5.5rem 1.25rem 0 !important;
-    gap: 0.45rem !important;
-  }
-  .fhs-fpt-root .fhs-menu-overlay-main-item { font-size: clamp(1.35rem, 6vw, 1.8rem) !important; }
-  .fhs-fpt-root .fhs-menu-overlay-vline { display: none !important; }
-  .fhs-fpt-root .fhs-menu-overlay-sub {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    width: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    margin: 1rem 1.25rem 0 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-  }
-  /* Mobile = previous simple menu: no cards, no image, no vline, no Husky-under-Giving.
-     Flow: main items → sub links → utility links → search + husky icons at the bottom. */
-  .fhs-fpt-root .fhs-site-header-right .fhs-site-header-search { display: none !important; }
-  .fhs-fpt-root .fhs-bar-summer,
-  .fhs-fpt-root .fhs-bar-divider,
-  .fhs-fpt-root .fhs-bar-husky { display: none !important; }
-  .fhs-fpt-root .fhs-menu-dock {
-    position: static !important;
-    right: auto !important;
-    bottom: auto !important;
-    max-width: none !important;
-    margin: 1.6rem 1.25rem 2.2rem !important;
-  }
-  .fhs-fpt-root .fhs-menu-dock-cards { display: none !important; }
-  .fhs-fpt-root .fhs-menu-dock-divider { display: none !important; }
-  .fhs-fpt-root .fhs-summer-link { display: none !important; }
-  .fhs-fpt-root .fhs-menu-dock-links {
-    display: flex !important;
-    width: auto !important;
-  }
-  .fhs-fpt-root .fhs-menu-dock-links a {
-    font-size: 0.95rem !important;
-    white-space: normal !important;
-  }
-  .fhs-fpt-root .fhs-menu-dock-icons {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 1rem !important;
-    margin-top: 0.5rem !important;
-  }
-  .fhs-fpt-root .fhs-menu-dock-icons a { color: #ffffff !important; white-space: normal !important; font-size: 0 !important; letter-spacing: 0 !important; text-transform: none !important; }
-  .fhs-fpt-root .fhs-menu-dock-icons .fhs-dock-search svg { width: 26px !important; height: 26px !important; display: block !important; }
-  .fhs-fpt-root .fhs-menu-dock-icons .fhs-dock-husky img { width: 34px !important; height: 35px !important; display: block !important; }
+}@media (max-width: 899px) { /* mobile keeps the previous simple menu */
 }
 
 /* ============================================================
@@ -1224,8 +605,7 @@ body {
    itself is unchanged). Hidden on mobile, where the header is a
    short logo+burger bar that already clears --us-pad-top.
    ============================================================ */
-.us-header-band { display: none; }
-@media (min-width: 1180px) {
+.us-header-band { display: none; }@media (min-width: 1180px) {
   .us-header-band { display: block; height: 64px; background: var(--navy); }
 }
 
@@ -1278,14 +658,7 @@ body {
   padding-left: var(--fh-edge);
   padding-right: var(--fh-edge);
   padding-bottom: 0; /* the photo stage runs to the section's bottom edge */
-}
-
-/* Desktop (band visible >=1180px): fill the full viewport height under the
-   fixed header + 64px band. Content stays pinned to the section BOTTOM so
-   the students' feet still rest on the white edge — any extra space lands
-   above the title instead of below the stage. Disc/photo geometry untouched.
-   min-height (not height) so short viewports never clip the content. */
-@media (min-width: 1180px) {
+}@media (min-width: 1180px) {
   .ae-hero {
     display: flex;
     flex-direction: column;
@@ -1454,16 +827,14 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 }
 @keyframes ae-quote-float-down {
   from { opacity: 0; transform: translateY(-40px); }
-}
-@media (min-width: 900px) {
+}@media (min-width: 900px) {
   .ae-quote--l {
     animation: ae-quote-float-down 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.15s both;
   }
   .ae-quote--r {
     animation: ae-quote-float-up 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.15s both;
   }
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
   .ae-quote--l,
   .ae-quote--r { animation: none; }
 }
@@ -1533,14 +904,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   aspect-ratio: 1;
   object-fit: contain;
   z-index: 1;
-}
-
-/* Mobile hero — title, then the two quotes side-by-side (50/50), then the
-   circle + students pinned to the section bottom. The locked composition
-   becomes a 2-column grid: row 1 = David | Sam, row 2 = stage spanning both.
-   It fills the remaining hero height so the stage sits flush at the bottom,
-   with the disc bleeding off the edge exactly like desktop. */
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .ae-hero {
     display: flex;
     flex-direction: column;
@@ -1647,8 +1011,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   font-size: clamp(.9rem, 1.1vw, 1.1rem);
   color: var(--navy);
 }
-.ae-tl-text { margin: 0; max-width: 74ch; }
-@media (max-width: 899px) {
+.ae-tl-text { margin: 0; max-width: 74ch; }@media (max-width: 899px) {
   .ae-tl-row { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
 }
 
@@ -1670,8 +1033,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(8px, 1vw, 14px);
-}
-@media (max-width: 1099px) {
+}@media (max-width: 1099px) {
   .at-row { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
 
@@ -1788,8 +1150,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 /* ---------- narrow screens (<900px): cards in a 2-up grid, click-only; the
    tapped officer's info renders inline directly under that pair (spanning both
    columns) and pushes the remaining cards down — no overlay ---------- */
-.at-narrow { display: none; }
-@media (max-width: 899px) {
+.at-narrow { display: none; }@media (max-width: 899px) {
   .at-desktop { display: none; }
   .at-narrow {
     display: flex;
@@ -2004,8 +1365,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: .5rem;
-}
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
   .at-dates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .at-slots {
@@ -2046,8 +1406,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: .8rem;
-}
-@media (max-width: 560px) {
+}@media (max-width: 560px) {
   .at-grid2 { grid-template-columns: minmax(0, 1fr); }
 }
 .at-input { display: block; min-width: 0; }
@@ -2181,8 +1540,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   cursor: pointer;
   transition: background-color .15s ease;
 }
-.at-btn-ghost:hover { background: #F1F5F8; }
-@media (max-width: 560px) {
+.at-btn-ghost:hover { background: #F1F5F8; }@media (max-width: 560px) {
   .at-confirmed-actions { flex-direction: column; }
 }
 .at-privacy {
@@ -2329,15 +1687,9 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 .ae-trait__nav[data-active-color="1"] .ae-trait__btn { background-color: #0066a6; }
 .ae-trait__nav[data-active-color="2"] .ae-trait__btn { background-color: #008BCE; }
 .ae-trait__nav[data-active-color="3"] .ae-trait__btn { background-color: #009cc5; }
-.ae-trait__nav[data-active-color="4"] .ae-trait__btn { background-color: #17b0d1; }
-/* The current button is white-on-dark via inline style in App.tsx */
-
-@media (prefers-reduced-motion: reduce) {
+.ae-trait__nav[data-active-color="4"] .ae-trait__btn { background-color: #17b0d1; }@media (prefers-reduced-motion: reduce) {
   .ae-trait__img, .ae-trait__copy { transition: none; }
-}
-
-/* Mobile — stacked: photo on top, buttons as a wrap row, copy below */
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .ae-trait__stage { flex-direction: column; height: auto; }
   .ae-trait__left { flex: none; width: 100%; aspect-ratio: 4 / 3; }
   .ae-trait__nav {
@@ -2479,8 +1831,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 .ae-belong__photo img.is-active {
   opacity: 1;
   transform: translateX(0);
-}
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .ae-belong__grid { grid-template-columns: minmax(0, 1fr); }
   .ae-belong__photo { order: 2; min-height: 0; aspect-ratio: 16 / 10; }
 }
@@ -2736,9 +2087,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 .ae-pro-plus:hover {
   opacity: .8;
   transform: translate(2px, -2px);
-}
-
-@media (max-width: 640px) {
+}@media (max-width: 640px) {
   .ae-profiles { min-height: 420px; }
   .ae-pro-copy { bottom: clamp(18px, 4vh, 32px); gap: 10px; padding: 0; max-width: calc(100vw - 32px); left: 16px; }
   .ae-pro-title { max-width: none; font-size: clamp(1.5rem, 6.4vw, 1.9rem) !important; }
@@ -2749,8 +2098,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
     height: 100%;
     background: linear-gradient(to top, rgba(0,0,0,.86) 0%, rgba(0,0,0,.74) 32%, rgba(0,0,0,.4) 50%, rgba(0,0,0,0) 64%);
   }
-}
-@media (prefers-reduced-motion: reduce) {
+}@media (prefers-reduced-motion: reduce) {
   .ae-pro-track { transition: none; }
 }
 
@@ -2808,8 +2156,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   color: var(--navy);
 }
 .tuition-price strong { font-weight: 700; }
-.tuition-price em { font-style: normal; }
-@media (max-width: 899px) {
+.tuition-price em { font-style: normal; }@media (max-width: 899px) {
   .tuition-row { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
   .tuition-price { border-left: none; padding-left: 0; }
 }
@@ -2881,8 +2228,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 .us-belong__photo img.is-active {
   opacity: 1;
   transform: translateX(0);
-}
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .us-belong__grid { grid-template-columns: minmax(0, 1fr); }
   .us-belong__photo { order: 2; min-height: 0; aspect-ratio: 16 / 10; }
 }
@@ -3071,10 +2417,6 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   gap: .4rem;
 }
 
-/* Menu links are never underlined (user request 2026-11-13) — global reset covering
-   desktop nav, dropdowns, utility row, mobile panel, and CTA buttons. */
-#root .fhs-site-header a { text-decoration: none !important; }
-
 /* ============================================================
    FONT LOCK (user request 2026-11-17) — ONLY our two fonts, never anything else.
    Everything → Brandon Grotesque; cursive accents → our cursive stack
@@ -3147,8 +2489,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 10px 30px rgba(21, 42, 59, .18), 0 0 0 6px var(--mist);
-}
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .bot-chair__grid { grid-template-columns: minmax(0, 1fr); }
   .bot-chair__photo-wrap { order: -1; } /* photo above the quote on mobile */
   .bot-chair__photo { width: clamp(200px, 58vw, 260px); }
@@ -3298,8 +2639,7 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   aspect-ratio: 4 / 3;
   object-fit: cover;
   box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
-}
-@media (max-width: 899px) {
+}@media (max-width: 899px) {
   .bot-comm__row { grid-template-columns: minmax(0, 1fr); }
 }
 
