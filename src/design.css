@@ -3172,11 +3172,10 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   gap: .3rem; /* tightened again (user request 2026-11-17): name → committees → parent as one tight block */
 }
 .bot-card__photo {
-  /* Full-width photo (user request 2026-11-17): fills the card's content width,
-     height stays exactly what the old circular image occupied
-     (its diameter: clamp(120px, 11vw, 164px)). Square corners. */
+  /* Square photo (user request 2026-11-18): fills the card's content width at a
+     1:1 aspect ratio. Square corners. */
   width: 100%;
-  height: clamp(120px, 11vw, 164px);
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   box-shadow: 0 3px 12px rgba(21, 42, 59, .18);
 }
