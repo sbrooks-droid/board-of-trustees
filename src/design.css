@@ -1,0 +1,3314 @@
+/* ============================================================
+   FLINT HILL DESIGN SYSTEM — Upper School project
+   Every value below is extracted from the live JK–12 homepage
+   (E:\newfhhome) so new pages match it exactly.
+   Import this file once; then build pages with the .fh-* classes.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#root {
+  position: relative;
+  /* Contain anything wider than the viewport — no horizontal scroll, ever */
+  overflow-x: clip !important;
+}
+
+/* ---------- Cursive accent — uploaded woff2 (Aurelly Signature Alt) ---------- */
+@font-face {
+  font-family: "Aurelly Signature Alt";
+  src: url("https://flinthillstg.wpenginepowered.com/home/Aurelly_Signature_Alt.woff2") format("woff2");
+  font-weight: 100 900; /* single file — serve it for any requested weight */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- TOKENS (exact homepage values) ---------- */
+:root {
+  /* Brand palette */
+  --navy: #00497C;          /* deep blue — section fields, headings on white */
+  --blue: #0066A6;          /* main blue */
+  --sky: #008BCE;           /* light blue accent (Middle School tab) */
+  --cyan: #17B0D1;          /* light cyan accent */
+  --emerald: #009357;       /* BRAND GREEN — primary action color */
+  --forest: #006b36;        /* dark green field */
+  --kicker-green: #69B845;  /* light green — eyebrows on dark fields */
+
+  /* Neutrals */
+  --ink: #152A3B;           /* near-black text on white */
+  --slate: #48607A;         /* body copy on white */
+  --mist: #F3F8FB;          /* light section background */
+  --gray: #EFEFEF;          /* neutral gray field (Applying to Flint Hill) */
+  --line: #DCE8F0;          /* hairlines / borders on white */
+
+  /* Type — brandon-grotesque (Typekit) + Aurelly Signature Alt (uploaded woff2);
+     lindsey-signature / Caveat kept as fallbacks */
+  --sans: "brandon-grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --cursive: "Aurelly Signature Alt", "lindsey-signature", "Caveat", cursive;
+
+  /* Layout — the standard section left/right edge used across the homepage */
+  --fh-edge: clamp(18px, min(4vw, 7vh), 56px);
+  --fh-content-max: 1600px;
+
+  /* EXACT left text edge of the JK–12 homepage (copied from its CSS:
+     `--hero-left-edge`) — a centered 1600px row + inner padding. On large
+     displays this is what gives the homepage its generous left margin; use
+     it for any full-bleed section whose text must align with the homepage. */
+  --fh-home-edge: calc(max(0px, (100vw - 1600px) / 2) + clamp(1.25rem, 4vw, 3rem));
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   SECTION SCAFFOLDING
+   .fh-section      — full-bleed section with the standard edge padding
+   .fh-section--navy / --green / --mist / --gray — common field colors
+   ============================================================ */
+.fh-section {
+  position: relative;
+  width: 100%;
+  padding: clamp(4rem, 8vh, 6.5rem) var(--fh-edge);
+}
+.fh-section--navy  { background: var(--navy);   color: #ffffff; }
+.fh-section--green { background: var(--emerald); color: #ffffff; }
+.fh-section--mist  { background: var(--mist); }
+.fh-section--gray  { background: var(--gray); }
+
+/* Inner content cap (same max-width the homepage centers its rows to) */
+.fh-inner {
+  width: 100%;
+  max-width: var(--fh-content-max);
+  margin-inline: auto;
+}
+
+/* ============================================================
+   TYPOGRAPHY — the shared scale
+   .fh-title      — section heading (Our Core Values / Our Pathway spec)
+   .fh-subtitle   — intro sentence under a title
+   .fh-eyebrow    — uppercase kicker label
+   .fh-body       — running body copy
+   .fh-cursive    — Caveat accent word (e.g. "pathway" in kickers)
+   ============================================================ */
+
+/* Section title — SAME as homepage: clamp(2.4rem, 5vw, 4.25rem), weight 500 */
+.fh-title {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(2.4rem, 5vw, 4.25rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: .01em;
+  text-align: left;
+  color: inherit;
+}
+/* Find Where You Belong + Connect With Us — brand blue titles (user-tuned) */
+.ae-belong .fh-title,
+.ae-team .fh-title { color: var(--blue); }
+/* Connect With Us must span the SAME full content width as the Find Where
+   You Belong grid above it (which is uncapped). The shared 1600px cap on
+   .ae-block was centering this section in from both sides on large displays. */
+.ae-team .ae-block { max-width: none; }
+/* Some homepage sections run slightly larger on phones — opt in with this */
+@media (max-width: 899px) {
+  .fh-title--mobile-lg { font-size: clamp(30px, 9.5vw, 46px); }
+}
+
+/* Intro sentence under the title — SAME as homepage subtitle spec */
+.fh-subtitle {
+  display: block;
+  margin-top: clamp(0.25rem, 0.7vw, 0.55rem);
+  max-width: min(980px, 100%);
+  text-align: left;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(1.05rem, 1.9vw, 1.7rem);
+  line-height: 1.45;
+  letter-spacing: .02em;
+  color: inherit;
+}
+.fh-section:not(.fh-section--navy):not(.fh-section--green) .fh-subtitle { color: var(--slate); }
+
+/* Uppercase kicker/eyebrow — homepage spec (size, tracking, weight) */
+.fh-eyebrow {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.fh-eyebrow--on-dark  { color: var(--kicker-green); } /* on navy/green fields */
+.fh-eyebrow--on-light { color: var(--emerald); }      /* on white/mist fields */
+
+/* Running body copy */
+.fh-body {
+  margin: 0;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.65;
+  letter-spacing: .01em;
+}
+.fh-section--navy .fh-body,
+.fh-section--green .fh-body { color: rgba(255, 255, 255, 0.94); }
+
+/* Cursive accent word (lindsey-signature, Caveat fallback) — matches homepage kickers */
+.fh-cursive {
+  font-family: var(--cursive);
+  font-weight: 600; /* semibold — same as homepage cursive words */
+}
+
+/* ============================================================
+   BUTTONS
+   .btn-outline      — trait-style: transparent, 2px border, square corners
+   .btn-solid-green  — solid green CTA, SQUARE corners (never rounded)
+   ============================================================ */
+.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  font-family: var(--sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+/* Trait-style outline button (homepage trait nav spec) */
+.btn-outline {
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  padding: .8rem 1.6rem;
+  border-radius: 0; /* square corners — the homepage trait look */
+}
+.btn-outline:hover { background: rgba(255, 255, 255, 0.18); }
+
+/* Same outline on light fields (navy instead of white) */
+.btn-outline--navy { border-color: var(--navy); color: var(--navy); }
+.btn-outline--navy:hover { background: rgba(0, 73, 124, 0.08); }
+
+/* Solid green CTA — square corners (homepage buttons are never rounded) */
+.btn-solid-green {
+  background: var(--emerald);
+  border: none;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+  padding: .85rem 1.9rem;
+  border-radius: 0;
+  box-shadow: 0 8px 20px rgba(0, 147, 87, 0.25);
+}
+.btn-solid-green:hover {
+  background: #007a48;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 147, 87, 0.35);
+}
+
+/* ============================================================
+   STATS (By The Numbers scale) — large / medium / small numbers
+   + uppercase labels, exactly as tuned on the homepage
+   ============================================================ */
+.stat { display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.4vh, 16px); text-align: center; }
+
+.stat-num { line-height: 0.95; font-weight: 800; letter-spacing: -0.02em; white-space: nowrap; color: inherit; }
+.stat-num--lg { font-size: clamp(44px, min(8.5vw, 12vh), 140px); }
+.stat-num--md { font-size: clamp(39px, min(6.75vw, 9.5vh), 112px); }
+.stat-num--sm { font-size: clamp(34px, min(5vw, 7vh), 84px); }
+
+.stat-lab {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  line-height: 1.45;
+  font-size: clamp(13px, min(1.5vw, 1.9vh), 24px);
+}
+
+/* ============================================================
+   CARDS + DECOR
+   .card        — white card with the homepage shadow
+   .fh-halftone — green square-strip motif (wipe/halftone language)
+   ============================================================ */
+.card {
+  background: #ffffff;
+  box-shadow: 0 2px 16px rgba(21, 42, 59, 0.10);
+}
+
+/* Row of brand-green squares fading out — the homepage halftone motif in CSS */
+.fh-halftone {
+  height: 54px;
+  background-image: repeating-linear-gradient(90deg, var(--emerald) 0 10px, transparent 10px 18px);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,.25) 70%, transparent 100%);
+          mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.55) 45%, rgba(0,0,0,.25) 70%, transparent 100%);
+}
+
+/* ============================================================
+   HERO — Visit Campus hero treatment (ported 1:1 from E:\VisitCampus):
+   navy field, 48%/52% two-column — title + copy left, campus photo right
+   with a circular left-edge clip. User request 2026-11-17.
+   .us-hero      — navy field (full bleed)
+   .us-hero__col-a / __col-b — text column / photo column
+   ============================================================ */
+
+.us-hero {
+  position: relative;
+  width: 100%;
+  background: var(--navy);
+  color: #ffffff;
+  /* FULL BLEED (user request): zero padding on the hero itself — the photo runs
+     to the top, right and bottom edges of the navy field. The text column carries
+     its own insets (.us-hero__col-a). NO min-height — the hero must stay exactly
+     as tall as it was before the full-bleed change (user request); at >=1180px
+     that's the fixed formula below, everywhere else it's content-driven. */
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* Two columns — title + copy in the first (48%), campus photo in the second (52%).
+   Title no longer spans full width. flex:1 makes the grid fill the hero's
+   full height so the photo column can run edge to edge. Wider photo column +
+   tighter gap = user request (bigger canvas for the circular clip). */
+.us-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 12fr) minmax(0, 13fr); /* 48% / 52% */
+  column-gap: clamp(1rem, 2vw, 2rem);
+  align-items: stretch; /* both columns span the full hero height */
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Text column — vertically centered in the field (user request), with its own
+   insets now that .us-hero has none. Vertical padding = EXACTLY what .us-hero
+   had before the full-bleed change, so total hero height is unchanged.
+   Left inset = the site's doubled edge, so the text still aligns with every
+   other content section. */
+.us-hero__col-a {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: clamp(4rem, 9vh, 7rem);
+  padding-bottom: clamp(4rem, 9vh, 7rem);
+  padding-left: calc(var(--fh-edge) * 2);
+  padding-right: calc(var(--fh-edge) * 2); /* matters on mobile — text is left-aligned in a wide column on desktop */
+}
+
+/* Second column — campus photo. Fills the ENTIRE column — full hero height,
+   no navy padding around it; object-fit:cover crops the square source.
+
+   LEFT EDGE ARC (approved mockup): a PERFECT CIRCLE, just enlarged — center on
+   the photo's vertical midline, to the RIGHT of the box. The circle's left arc
+   cuts through the box: deepest point at MID-HEIGHT (a few px inside the column's
+   left edge), ~13–16% sweep clipped off top/bottom-left, straight right edge
+   full-bleed (far corners verified INSIDE the circle at 1280–2560px widths).
+   Radius/center are in vw because clip-path can't reference the box's own size.
+   Verified numerically against the fixed hero-height formula at 1280–2560px.
+   Tune: bigger radius = flatter sweep; center X further right = shallower cut. */
+.us-hero__col-b { min-width: 0; }
+.us-hero__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  clip-path: circle(30vw at calc(100% - 20.5vw) 50%);
+}
+
+/* Tablet — hero is content-driven there (height varies with text wrap), so the
+   desktop geometry can't be pinned exactly; this reads as the SAME enlarged
+   circle: deepest point at mid-height just inside the column's left edge, ~13–30%
+   sweep off top/bottom-left, right edge full-bleed (far corners verified inside
+   the circle across 900–1179px). User-tuned value. */
+@media (max-width: 1179px) {
+  .us-hero__photo { clip-path: circle(34vw at calc(100% - 16vw) 50%); }
+}
+/* Mobile — photo is a wide, short strip below the text; a left-edge arc would
+   bite too deep into its corners, so it stays a clean full-width rectangle. */
+@media (max-width: 899px) {
+  .us-hero__photo { clip-path: none; }
+}
+
+/* Hero title — SAME SIZE + WEIGHT as Apply & Engage's hero title
+   (.ae-hero__title): clamp(2rem, 3.8vw, 3.4rem) @ weight 700 (user request).
+   Title case ("Upper School"), NOT uppercase. */
+.us-hero__col-a > .fh-title {
+  font-size: clamp(2rem, 3.8vw, 3.4rem) !important;
+  font-weight: 700 !important;
+  /* FA (user request 2026-11-17): bulletproof — NO uppercase transform from ANY source
+     (our CSS, stale bundles, or leaked theme rules). Renders exactly as typed:
+     "Tuition & Financial Aid". */
+  text-transform: none !important;
+}
+
+/* Statement copy under the hero title — moved here from the old white
+   .us-statement field (that section is gone). Smaller than that version's
+   clamp(1.05rem, 1.9vw, 1.7rem), light on navy. The admission-team link goes
+   white + bold instead of #0066A6 — that blue was for the white field and has
+   poor contrast on brand navy. */
+.us-hero__col-a p {
+  margin: clamp(1.25rem, 2.5vh, 2rem) 0 0;
+  max-width: 62ch;
+  font-size: clamp(1rem, 1.3vw, 1.25rem); /* .fh-body scale — smaller than the old statement */
+  line-height: 1.65;
+  letter-spacing: .01em;
+  color: rgba(255, 255, 255, 0.94);
+}
+.us-hero__col-a p + p { margin-top: clamp(.9rem, 1.8vh, 1.3rem); }
+.us-hero__col-a a { color: #ffffff; font-weight: 700; }
+
+/* Text LEFT-aligned within its own column (user request) — the max-width box
+   hugs the column's left edge */
+.us-hero__col-a { text-align: left; }
+.us-hero__col-a p { margin-left: 0; margin-right: auto; }
+
+.us-caps { text-transform: uppercase; letter-spacing: .02em; }
+
+/* Eyebrow + hairline rule — "MEET OUR STUDENTS ————" */
+.us-rule {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 24px);
+  margin-top: clamp(1.5rem, 3vh, 2.75rem);
+}
+.us-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* This page's kicker: thinner weight + white (overrides the system eyebrow) */
+.us-rule .fh-eyebrow {
+  font-weight: 400;
+  color: #ffffff;
+}
+
+/* Cursive student name — lindsey-signature, exactly like the homepage accents */
+.us-name {
+  margin: clamp(1.75rem, 3.5vh, 2.75rem) 0 0;
+  font-family: var(--cursive);
+  font-weight: 600;
+  font-size: clamp(2.9rem, 4.8vw, 4.5rem);
+  line-height: 1;
+}
+
+.us-grade {
+  margin-top: .35em;
+  font-size: clamp(.95rem, 1.25vw, 1.2rem);
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.us-quote {
+  margin-top: clamp(1rem, 2vh, 1.5rem);
+  max-width: 34ch;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.65;
+  letter-spacing: .01em;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+/* Column heading — "SAMRUDHI'S CLASS SCHEDULE" / "CLUBS & ACTIVITIES" */
+.us-col-head {
+  margin: 0 0 clamp(.7rem, 1.6vh, 1.1rem);
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+/* Two-column schedule grid with hairlines (mockup table) */
+.us-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+.us-cell {
+  padding: clamp(.6rem, 1.3vh, .95rem) clamp(.75rem, 1vw, 1.1rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: clamp(.95rem, 1.15vw, 1.1rem);
+  line-height: 1.4;
+}
+.us-cell--r { border-left: 1px solid rgba(255, 255, 255, 0.4); }
+
+.us-block + .us-block { margin-top: clamp(1.75rem, 3.5vh, 2.75rem); }
+
+
+
+/* White statement field under the hero — same left edge as the hero text
+   (homepage's centered-row formula) so both align on large displays */
+.us-statement {
+  background: #ffffff;
+  padding-top: clamp(3.5rem, 8vh, 6rem);
+  padding-bottom: clamp(3.5rem, 8vh, 6rem);
+  padding-left: var(--fh-home-edge);
+  padding-right: var(--fh-edge);
+}
+.us-statement p {
+  max-width: min(1150px, 100%);
+  margin: 0;
+  font-size: clamp(1.05rem, 1.9vw, 1.7rem); /* .fh-subtitle scale */
+  line-height: 1.45;
+  letter-spacing: .02em;
+  color: var(--blue);
+}
+.us-statement .fh-cursive { font-size: 1.25em; }
+
+/* ============================================================
+   BY THE NUMBERS — mist field under the statement (approved mockup)
+   3-column stat mosaic with hairline dividers + outline CTA.
+   Hairlines are painted as cell borders so they stay continuous:
+     left divider  = border-left on BOTH middle cells (full height)
+     right divider = border-left on c3t only (top row, per mockup)
+     horizontal    = border-bottom on each top-row cell
+   ============================================================ */
+.us-numbers {
+  background: var(--mist);
+  color: var(--blue);
+}
+/* Center the ~980px block; title sits at its top-left edge (mockup) */
+.us-numbers > * { margin-inline: auto; }
+.us-numbers .fh-title { max-width: none; text-align: left; }
+
+/* Same architecture as the JK–12 homepage's "By The Numbers" mosaic
+   (newfhhome flint-hill.css): grid placement + cell borders.
+   TARGET (user-confirmed):
+     • BOTH vertical dividers run the FULL height of the mosaic
+     • every horizontal hairline spans its column EDGE-TO-EDGE so it touches
+       the vertical divider(s) — no padding gaps, all lines connect */
+.us-num-grid {
+  width: 100%; /* full-bleed mosaic (user-tuned) */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  --us-pad: clamp(1.5rem, 3vh, 2.5rem); /* shared cell padding — hairlines use it to reach the track edges */
+}
+
+/* Cell padding instead of gaps (keeps borders continuous) */
+.us-num-cell { padding: var(--us-pad); }
+
+/* Vertical dividers — cell borders span the full grid-row height; both col2
+   cells + BOTH col3 cells carry border-left → each divider runs edge-to-edge
+   for the whole mosaic (top to bottom), crossing every hairline. */
+.us-num-cell--mid { border-left: 1px solid rgba(0, 73, 124, 0.35); } /* left divider — both col2 cells = full grid height */
+.us-num-cell--c3t,
+.us-num-cell--c3b { border-left: 1px solid rgba(0, 73, 124, 0.35); } /* right divider — BOTH col3 cells = full grid height */
+
+/* Horizontal hairlines — every line spans its FULL track width (no padding
+   gap) so it touches the vertical dividers:
+   • col2's line = cell border-bottom (col2 is tallest, so row bottom sits right
+     below its own content)
+   • col1/col3 lines = .us-hair wrapper: hugs each column's shorter content
+     (staggered like the target) while negative margins stretch it edge-to-edge */
+.us-line-b { border-bottom: 1px solid rgba(0, 73, 124, 0.35); }
+.us-hair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.4vh, 16px); /* same number↔label rhythm as .stat */
+  position: relative; /* anchor for the full-width line below */
+  align-self: stretch; /* fill the cell's FULL content box (not just its text width) so
+                          ::after's ±pad offsets land exactly on both track edges */
+}
+/* The hairline itself: absolutely positioned, spanning the FULL track width —
+   .us-hair is stretched to the cell content box, and left/right reach one pad
+   past each edge = exactly the track borders. Sits right under this column's
+   content (staggered like the target). Negative margins on a flex item don't
+   work here — Chrome centers the margin-box, so we anchor instead. */
+.us-hair::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--us-pad));
+  right: calc(-1 * var(--us-pad));
+  top: 100%; /* line sits exactly at the wrapper's bottom edge (under the label) */
+  border-top: 1px solid rgba(0, 73, 124, 0.35);
+}
+
+/* CTA — blue outline (mockup button is brand-blue, not the default white/navy).
+   display:flex makes it block-level so margin-inline:auto can center it. */
+.us-num-cta {
+  display: flex; /* block-level so it can center… */
+  width: fit-content; /* …but shrink to its content instead of stretching full-width */
+  margin-top: clamp(2rem, 4vh, 3rem);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+.us-num-cta:hover { background: rgba(0, 102, 166, 0.08); }
+
+/* Mobile — single column stack; hairlines become top borders between cells */
+@media (max-width: 899px) {
+  .us-num-grid { grid-template-columns: 1fr; }
+  .us-num-cell--mid,
+  .us-num-cell--c3t,
+  .us-num-cell--c3b { border-left: none; }
+  .us-line-b { border-bottom: none; }
+  .us-hair::after { display: none; }
+  /* every cell after the first gets a top hairline instead */
+  .us-num-grid > .stat + .stat { border-top: 1px solid rgba(0, 73, 124, 0.35); }
+}
+
+/* Mobile — single column stack (Visit Campus treatment): photo drops below the
+   copy as a 4:3 crop of the source */
+@media (max-width: 899px) {
+  .us-hero__inner {
+    grid-template-columns: minmax(0, 1fr); /* single column — text gets full width on phones */
+  }
+
+  /* Photo drops below the copy as a 4:3 crop of the square source (explicit box —
+     the stretch-to-text sizing doesn't apply in single-column mode) */
+  .us-hero__photo { height: auto; aspect-ratio: 4 / 3; }
+}
+
+/* ============================================================
+   DESKTOP (>=1180px) — MATCH THE APPLY & ENGAGE HERO HEIGHT EXACTLY
+   .ae-hero (E:\apply-engage) is content-driven: pad-top + title + its
+   margin-bottom + the 620×scale composition box. We mirror that exact
+   formula as a height here so both heroes are pixel-equal at every
+   viewport (verified against measured renders at 1920/2560/1600 widths).
+   KEEP IN SYNC with .ae-hero / .ae-composition in E:\apply-engage\src\design.css.
+
+   Mechanics:
+     • padding-bottom → 0 and --us-pad-bottom → 0 so the photo's full-bleed
+       anchor lands exactly on the hero's bottom edge;
+     • explicit height (NOT min-height, NOT flex): Chrome refuses to resolve
+       an abspos child's `bottom` against a containing block whose height is
+       "indefinite" — both min-height and flex-grown items count as such.
+   ============================================================ */
+@media (min-width: 1180px) {
+  .us-hero {
+    /* FULL BLEED — no vertical padding at any width (user request). */
+    --us-pad-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: calc(
+      clamp(3rem, 7vh, 5.5rem) + 40px /* AE pad-top (base + fixed-menu clearance) */
+      + 1.12 * clamp(2rem, 3.8vw, 3.4rem) /* AE title: .fh-title lh 1.12 × its font-size */
+      + clamp(2rem, 5vh, 4rem) /* AE title margin-bottom */
+      + 620px * min(calc((100vw - 112px) / 1408px), max(calc(100vw / 2400px), calc(100vh / 1500px))) /* AE composition box */
+    );
+  }
+
+  /* VERTICAL CENTERING FIX (user report @1180): the 64px .us-header-band above
+     the hero is the SAME navy, so the visible field = band + hero. Centering in
+     .us-hero alone leaves the text half a band (32px) below that field's center —
+     it reads as "closer to the bottom" exactly at this breakpoint (below 1180 the
+     band is display:none, so the same CSS looked perfectly centered there).
+     Shift col-a's vertical padding by ±half the band: total padding is unchanged,
+     so the centering axis moves up exactly 32px → text dead-center in the visible
+     navy field. Math: content center = P_top' + (H − P_top' − P_bot')/2 = H/2 − 32
+     from hero top = (64 + H)/2 from field top, for ANY hero height H.
+     Hero box, photo full-bleed and clip geometry are all untouched. */
+  .us-hero__col-a {
+    padding-top: calc(clamp(4rem, 9vh, 7rem) - 32px);
+    padding-bottom: calc(clamp(4rem, 9vh, 7rem) + 32px);
+  }
+}
+
+/* ============================================================
+   FA ALIGNMENT OVERRIDE (user request 2026-11-17)
+   The ported VC hero uses a doubled-edge left inset, but every content
+   section on THIS page (.fh-section padding + .fa-inner's centered
+   1600px cap) sits at var(--fh-edge) + max(0, (vw - 1600)/2). Match that
+   exactly so the hero title/copy align with the "2026–27 Tuition" text
+   at every viewport width. Supersedes .us-hero__col-a's padding-left.
+   ============================================================ */
+.us-hero__col-a {
+  padding-left: calc(var(--fh-edge) + max(0px, (100vw - var(--fh-content-max)) / 2));
+}
+
+/* ============ SITE HEADER (fixed overlay, minimizes on scroll) ============ */
+/* =====================================================================
+   SITE HEADER — redesigned
+   Logo (max 180px, left) + hamburger + stacked quick links (right).
+   Hamburger opens a full-page navy menu overlay: section image top-left,
+   main items stacked top-right, vertical center line, horizontal divider
+   over the left half with sub-links beneath it, bottom-left link stack.
+   ===================================================================== */
+.fhs-fpt-root .fhs-site-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1200 !important;
+  /* Over the hero on load: dark translucent wash so white menu text reads clearly */
+  background: rgba(13, 27, 42, 0.35) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  transition: background-color 0.3s ease;
+}
+/* Menu overlay open — the header bar blends into the navy takeover */
+.fhs-fpt-root .fhs-site-header.is-menu-open {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* Collapsed after scrolling past the hero — only the floating hamburger remains */
+.fhs-fpt-root .fhs-site-header.is-compact {
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-body { padding: 0.5rem 1.25rem !important; }
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-logo {
+  width: 0 !important;
+  max-width: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+}
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-right { gap: 0 !important; }
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-quick { display: none !important; }
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-search { display: none !important; }
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-summer,
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-divider,
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-bar-husky { display: none !important; }
+
+/* Header bar (desktop): SUMMER ON THE HILL | divider | HUSKY HUB + icon — left of burger/X.
+   Summer stays hidden until the full-page menu opens; Husky Hub is always in the bar, right of search. */
+.fhs-fpt-root .fhs-bar-summer { display: none !important; }
+.fhs-fpt-root .fhs-bar-divider { display: none !important; }
+.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-summer { display: inline-block !important; }
+.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-divider { display: block !important; }
+.fhs-fpt-root .fhs-site-header.is-menu-open .fhs-bar-husky { display: inline-flex !important; }
+/* Menu opened FROM compact mode — restore the full bar (search + summer/husky) with normal spacing,
+   and size the Husky head to match the X in its 48px circle. */
+.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-right { gap: clamp(1.25rem, 2vw, 2.25rem) !important; }
+.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-search { display: inline-flex !important; }
+.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-quick { display: flex !important; }
+.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-site-header-logo { width: 220px !important; max-width: 220px !important; opacity: 1 !important; }
+.fhs-fpt-root .fhs-site-header.is-compact.is-menu-open .fhs-bar-husky img { width: 30px !important; height: 31px !important; }
+/* Desktop page-loaded bar: Husky Hub (right of search) + its divider always visible.
+   Scoped to ≥900px so the mobile bar keeps its current layout. */
+@media (min-width: 900px) {
+  .fhs-fpt-root .fhs-bar-husky { display: inline-flex !important; }
+  .fhs-fpt-root .fhs-husky-divider { display: block !important; }
+}
+
+.fhs-fpt-root .fhs-bar-summer,
+.fhs-fpt-root .fhs-bar-husky {
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-bar-summer:hover,
+.fhs-fpt-root .fhs-bar-husky:hover { color: #17B0D1 !important; }
+.fhs-fpt-root .fhs-bar-divider {
+  width: 1px !important;
+  height: 18px !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  flex: none !important;
+  margin: 0 1.1rem !important; /* breathing room on both sides of the divider */
+}
+.fhs-fpt-root .fhs-bar-husky {
+  /* display is controlled by the open-menu toggle above — do NOT set it here */
+  align-items: center !important;
+  gap: 0.45rem !important;
+}
+.fhs-fpt-root .fhs-bar-husky img { width: 24px !important; height: 25px !important; display: block !important; }
+/* Translucent circle behind the icon */
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 1px 8px rgba(21, 42, 59, 0.2) !important;
+}
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger:hover { background: rgba(255, 255, 255, 0.9) !important; }
+/* Dark bars over the white circle */
+.fhs-fpt-root .fhs-site-header.is-compact .fhs-site-header-burger span { background: var(--ink) !important; }
+
+.fhs-fpt-root .fhs-site-header-body {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 2rem !important;
+  padding: 0.5rem 3.25rem !important;
+}
+
+/* Logo — max-width 220px at ANY viewport width */
+.fhs-fpt-root .fhs-site-header-logo {
+  display: inline-flex !important;
+  flex: none !important;
+  width: 220px !important;
+  min-width: 0 !important;
+  max-width: 220px !important;
+  transition: opacity 0.3s ease, width 0.45s ease;
+}
+.fhs-fpt-root .fhs-site-header-logo img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* Right group: hamburger, then the stacked quick links to its right */
+.fhs-fpt-root .fhs-site-header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(1.25rem, 2vw, 2.25rem) !important;
+}
+
+/* Stacked quick links — same type as the old utility row, tighter line spacing, left-aligned */
+.fhs-fpt-root .fhs-site-header-quick {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.1rem !important;
+}
+.fhs-fpt-root .fhs-site-header-quick a {
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  line-height: 1.55 !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-site-header-quick a:hover { color: #009357 !important; }
+/* Desktop: inline row left of the search icon, small dividers between the links */
+@media (min-width: 900px) {
+  .fhs-fpt-root .fhs-site-header-quick {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0 !important;
+  }
+  .fhs-fpt-root .fhs-quick-divider {
+    width: 1px !important;
+    height: 14px !important;
+    background: rgba(255, 255, 255, 0.35) !important;
+    flex: none !important;
+    margin: 0 0.9rem !important;
+  }
+}
+/* Mobile keeps the stacked layout — hide the inline dividers */
+@media (max-width: 899px) {
+  .fhs-fpt-root .fhs-quick-divider { display: none !important; }
+}
+
+/* Hamburger — always visible, white bars over the hero wash */
+.fhs-fpt-root .fhs-site-header-burger {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  width: 44px !important;
+  height: 44px !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+.fhs-fpt-root .fhs-site-header-burger span {
+  display: block !important;
+  width: 24px !important;
+  height: 2.5px !important;
+  background: #ffffff !important;
+  border-radius: 2px !important;
+  transition: transform 0.25s ease, opacity 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(2) { opacity: 0; }
+.fhs-fpt-root .fhs-site-header-burger.is-open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* Search icon — header bar, left of the close (X) button */
+.fhs-fpt-root .fhs-site-header-search {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: #ffffff !important;
+  padding: 0.2rem !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-site-header-search:hover { color: #17B0D1 !important; }
+/* SEARCH label — left of the icon. Icon only by default; text appears on hover in BOTH
+   the page-loaded bar and the full-page menu. */
+.fhs-fpt-root .fhs-search-label {
+  display: none !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+.fhs-fpt-root .fhs-site-header-search:hover { gap: 0.45rem !important; }
+.fhs-fpt-root .fhs-site-header-search:hover .fhs-search-label { display: inline-block !important; }
+/* HUSKY HUB label — same pattern as SEARCH: icon only, text on hover (both states). */
+.fhs-fpt-root .fhs-husky-label {
+  display: none !important;
+}
+.fhs-fpt-root .fhs-bar-husky:hover .fhs-husky-label { display: inline-block !important; }
+
+/* =====================================================================
+   FULL-PAGE MENU OVERLAY (navy takeover)
+   ===================================================================== */
+.fhs-fpt-root .fhs-menu-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1199 !important; /* just under the header bar so logo + X stay usable */
+  background: #00497C !important;
+  overflow-y: auto !important;
+  animation: fhsMenuFade 0.3s ease;
+}
+
+/* Bottom-left image — one layer per section, cross-fading with the selection.
+   Flush to the left edge, extends to the center vertical line and the bottom. */
+.fhs-fpt-root .fhs-menu-overlay-img {
+  display: none !important; /* removed per request — no section images in the full-page menu */
+  position: absolute !important;
+  left: 0 !important;
+  top: calc(54vh + 1.5rem) !important;
+  bottom: 0 !important;
+  width: 50vw !important;
+  overflow: hidden !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-img-layer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  opacity: 0 !important;
+  transition: opacity 0.45s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-img-layer.is-active { opacity: 1 !important; }
+
+/* Vertical white line down the middle — stops short of top & bottom */
+.fhs-fpt-root .fhs-menu-overlay-vline {
+  position: absolute !important;
+  left: 50% !important;
+  top: 9vh !important;
+  bottom: auto !important;
+  height: calc(41vh) !important; /* stops at mid-page — upper half only */
+  width: 1px !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Top-right main items — stacked, larger type */
+.fhs-fpt-root .fhs-menu-overlay-main {
+  position: absolute !important;
+  top: 11vh !important;
+  left: calc(50% + 4vw) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: clamp(0.35rem, 1.1vh, 0.9rem) !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-main-item {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  font-size: clamp(1.5rem, 2.3vw, 2.4rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  line-height: 1.15 !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-main-item:hover { color: #6FD3F2 !important; }
+.fhs-fpt-root .fhs-menu-overlay-main-item.is-active { color: #17B0D1 !important; transform: translateX(8px); }
+/* Search + Husky Login icons — under GIVING, side by side, enlarged */
+.fhs-fpt-root .fhs-menu-overlay-main-icons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1.4rem !important;
+  margin-top: 0.9rem !important;
+}
+
+/* Top-left sub-links — appear when a section is selected */
+.fhs-fpt-root .fhs-menu-overlay-sub {
+  position: absolute !important;
+  left: 6vw !important;
+  top: 11vh !important;
+  width: min(34vw, 540px) !important;
+  max-height: 41vh !important;
+  overflow-y: auto !important;
+  /* clip the slide-in travel so no horizontal scrollbar flashes at the bottom */
+  overflow-x: hidden !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  /* Fades in sliding from the right (toward the clicked main item) into place on the left */
+  transform: translateX(48px) !important;
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(.3,.7,.4,1), visibility 0s linear .25s !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-sub.is-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+  transition-delay: 0s !important;
+}
+/* Replays on every section switch — the inner div remounts (keyed by activeSection in Header.tsx) */
+@keyframes fhsSubIn {
+  from { opacity: 0; transform: translateX(48px); }
+  to   { opacity: 1; transform: none; }
+}
+.fhs-fpt-root .fhs-menu-overlay-sub-inner { animation: fhsSubIn 0.32s cubic-bezier(.3,.7,.4,1) both; }
+.fhs-fpt-root .fhs-menu-overlay-sub a {
+  display: block !important;
+  padding: 0.55rem 0 !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16) !important;
+  transition: color .18s ease, padding-left .18s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-sub a:hover { color: #17B0D1 !important; padding-left: 4px !important; }
+/* Athletics season accordions — head row + chevron, teams expand beneath */
+.fhs-fpt-root .fhs-menu-overlay-season-head {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 1rem !important;
+  width: 100% !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0.5rem 0 !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: #9fe8c7 !important;
+  margin-top: 0.6rem !important;
+  transition: color .2s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-season-head:hover { color: #17B0D1 !important; }
+.fhs-fpt-root .fhs-menu-overlay-season-chev {
+  flex: 0 0 auto !important;
+  width: 12px !important;
+  height: 12px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: transform 0.25s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-season-head.is-open .fhs-menu-overlay-season-chev { transform: rotate(180deg); }
+/* Athletics team links stay small */
+.fhs-fpt-root .fhs-menu-overlay-season-teams a { font-size: 0.82rem !important; }
+
+/* Dock — LOWER-RIGHT quadrant, horizontal row: [card | card] | divider | links (desktop) */
+.fhs-fpt-root .fhs-menu-dock {
+  position: absolute !important;
+  right: 0 !important; /* group flush to the screen edge — Futures image goes all the way over */
+  width: calc(44vw - 1rem) !important; /* definite width — card content is absolutely positioned, so shrink-to-fit would collapse to 0 */
+  top: calc(62vh + 1rem) !important; /* lower band starts further down — shorter bottom half */
+  bottom: 0 !important;              /* …and fills to the page bottom */
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  gap: 1.25rem !important;
+  max-width: calc(44vw - 1rem) !important; /* stay fully right of the section photo (which ends at 50vw) */
+}
+.fhs-fpt-root .fhs-menu-dock-cards {
+  display: flex !important;
+  flex-direction: row !important; /* cards side by side */
+  gap: 1.25rem !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+.fhs-fpt-root .fhs-menu-dock-card {
+  position: relative !important;
+  display: block !important;
+  overflow: hidden !important;
+  flex: 1 1 0 !important; /* both cards share the space evenly */
+  min-width: 0 !important;
+  text-decoration: none !important;
+}
+.fhs-fpt-root .fhs-menu-dock-card img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important; /* image fills the whole card, title overlays on top */
+  object-fit: cover !important;
+  border-radius: 0 !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  transition: transform 0.45s ease !important;
+}
+.fhs-fpt-root .fhs-menu-dock-card:hover img { transform: scale(1.06); }
+.fhs-fpt-root .fhs-menu-dock-card span {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important; /* title sits at the bottom of the image */
+  padding: 2.2rem 1rem 0.8rem !important; /* tighter for the shorter cards */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0) 100%) !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important; /* Title Case — no all-caps */
+  text-transform: none !important;
+  line-height: 1.45 !important;
+  white-space: normal !important;
+  color: #ffffff !important;
+}
+.fhs-fpt-root .fhs-menu-dock-card:hover span { color: #17B0D1 !important; }
+/* Futures card: hover title matches its FLINT HILL FUTURES label (light green) */
+.fhs-fpt-root .fhs-menu-dock-card.tone-green:hover span { color: #69B845 !important; }
+/* Top-left brand label over each card image (podcast = light blue, futures = light green) */
+/* > span.fhs-... specificity must beat the card title rule (.fhs-menu-dock-card span),
+   which otherwise leaks padding-top:2.8rem + gradient background into the label */
+.fhs-fpt-root .fhs-menu-dock-card > span.fhs-menu-dock-card-label {
+  position: absolute !important;
+  top: 0.35rem !important;
+  left: 0.6rem !important;
+  right: auto !important;
+  padding: 0 !important;
+  background: none !important;
+  z-index: 2 !important;
+  font-size: 0.6rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  line-height: 1.35 !important;
+  pointer-events: none !important;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6) !important;
+}
+/* Tone colors — declared in CSS (not inline) so they beat the card title's color:#fff !important */
+.fhs-fpt-root .fhs-menu-dock-card > span.tone-blue { color: #17B0D1 !important; }
+.fhs-fpt-root .fhs-menu-dock-card > span.tone-green { color: #69B845 !important; }
+/* Husky Highlights card — navy label, stays navy on hover (article title below keeps its own white hover) */
+.fhs-fpt-root .fhs-menu-dock-card > span.tone-white { color: #00497C !important; }
+.fhs-fpt-root .fhs-menu-dock-card.tone-white:hover span { color: #ffffff !important; }
+.fhs-fpt-root .fhs-menu-dock-card.tone-white:hover > span.fhs-menu-dock-card-label { color: #00497C !important; }
+/* Bottom-left quadrant (desktop only): latest Husky Highlights article, same band as the right dock */
+@media (min-width: 900px) {
+  .fhs-fpt-root .fhs-menu-dock-left {
+    position: absolute !important;
+    left: 0 !important; /* flush to the left edge, filling the quadrant like the old section photo did */
+    top: calc(62vh + 1rem) !important; /* same band as the right-side dock cards */
+    bottom: 0 !important;
+    width: calc(44vw - 1rem) !important;
+  }
+}
+@media (max-width: 899px) {
+  .fhs-fpt-root .fhs-menu-dock-left { display: none !important; } /* mobile keeps the previous simple menu */
+}
+.fhs-fpt-root .fhs-menu-dock-divider { display: none !important; } /* desktop: thumbnails only */
+.fhs-fpt-root .fhs-menu-dock-links {
+  display: none !important; /* desktop: removed — Summer moved under Husky Hub; mobile re-enables below */
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.4rem !important;
+}
+.fhs-fpt-root .fhs-menu-dock a {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-menu-dock a:hover { color: #17B0D1 !important; }
+/* Search + Husky icons row — mobile only (desktop keeps search in the bar, Husky under GIVING) */
+.fhs-fpt-root .fhs-menu-dock-icons { display: none !important; }
+.fhs-fpt-root .fhs-menu-overlay-husky img {
+  width: 50px !important;
+  height: 52px !important;
+  display: block !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-husky-label {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-menu-overlay-husky-label:hover { color: #17B0D1 !important; }
+/* Summer on the Hill — under Husky Hub in the main column (desktop) */
+.fhs-fpt-root .fhs-summer-link {
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #ffffff !important;
+  white-space: nowrap !important;
+  transition: color 0.2s ease !important;
+}
+.fhs-fpt-root .fhs-summer-link:hover { color: #17B0D1 !important; }
+@keyframes fhsMenuFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Narrower screens — tighter paddings, smaller overlay type */
+@media (max-width: 899px) {
+  .fhs-fpt-root .fhs-site-header-body { padding: 0.7rem 1.25rem !important; gap: 1rem !important; }
+  .fhs-fpt-root .fhs-site-header-logo { width: min(46vw, 190px) !important; max-width: min(46vw, 190px) !important; }
+  .fhs-fpt-root .fhs-menu-overlay-img { display: none !important; }
+  .fhs-fpt-root .fhs-menu-overlay-main {
+    position: static !important;
+    margin: 5.5rem 1.25rem 0 !important;
+    gap: 0.45rem !important;
+  }
+  .fhs-fpt-root .fhs-menu-overlay-main-item { font-size: clamp(1.35rem, 6vw, 1.8rem) !important; }
+  .fhs-fpt-root .fhs-menu-overlay-vline { display: none !important; }
+  .fhs-fpt-root .fhs-menu-overlay-sub {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    width: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 1rem 1.25rem 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+  /* Mobile = previous simple menu: no cards, no image, no vline, no Husky-under-Giving.
+     Flow: main items → sub links → utility links → search + husky icons at the bottom. */
+  .fhs-fpt-root .fhs-site-header-right .fhs-site-header-search { display: none !important; }
+  .fhs-fpt-root .fhs-bar-summer,
+  .fhs-fpt-root .fhs-bar-divider,
+  .fhs-fpt-root .fhs-bar-husky { display: none !important; }
+  .fhs-fpt-root .fhs-menu-dock {
+    position: static !important;
+    right: auto !important;
+    bottom: auto !important;
+    max-width: none !important;
+    margin: 1.6rem 1.25rem 2.2rem !important;
+  }
+  .fhs-fpt-root .fhs-menu-dock-cards { display: none !important; }
+  .fhs-fpt-root .fhs-menu-dock-divider { display: none !important; }
+  .fhs-fpt-root .fhs-summer-link { display: none !important; }
+  .fhs-fpt-root .fhs-menu-dock-links {
+    display: flex !important;
+    width: auto !important;
+  }
+  .fhs-fpt-root .fhs-menu-dock-links a {
+    font-size: 0.95rem !important;
+    white-space: normal !important;
+  }
+  .fhs-fpt-root .fhs-menu-dock-icons {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-top: 0.5rem !important;
+  }
+  .fhs-fpt-root .fhs-menu-dock-icons a { color: #ffffff !important; white-space: normal !important; font-size: 0 !important; letter-spacing: 0 !important; text-transform: none !important; }
+  .fhs-fpt-root .fhs-menu-dock-icons .fhs-dock-search svg { width: 26px !important; height: 26px !important; display: block !important; }
+  .fhs-fpt-root .fhs-menu-dock-icons .fhs-dock-husky img { width: 34px !important; height: 35px !important; display: block !important; }
+}
+
+/* ============================================================
+   SITE HEADER CLEARANCE (desktop >=1180px)
+   The ported site header is position:fixed and ~90px tall at the top
+   of the page. A navy band keeps its translucent wash sitting over
+   brand navy and pushes the hero content below the bar — without
+   touching any approved photo/circle geometry (the .us-hero box
+   itself is unchanged). Hidden on mobile, where the header is a
+   short logo+burger bar that already clears --us-pad-top.
+   ============================================================ */
+.us-header-band { display: none; }
+@media (min-width: 1180px) {
+  .us-header-band { display: block; height: 64px; background: var(--navy); }
+}
+
+/* ============================================================
+   APPLY & ENGAGE — page sections (.ae-*)
+   Built on the shared tokens above; every value follows the same
+   scale (type, hairlines, square-corner buttons, brand palette).
+   ============================================================ */
+
+/* Shared content wrapper + copy measure for the text blocks */
+.ae-block {
+  width: 100%;
+  max-width: var(--fh-content-max);
+  margin-inline: auto;
+}
+.ae-copy {
+  margin-top: clamp(1rem, 2vh, 1.5rem);
+  max-width: min(880px, 100%);
+  color: var(--slate);
+}
+.fh-section--navy .ae-copy,
+.fh-section--green .ae-copy { color: rgba(255, 255, 255, 0.94); }
+.ae-copy--2 { margin-top: clamp(.8rem, 1.6vh, 1.1rem); }
+.ae-copy a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  transition: color .2s ease;
+}
+.ae-copy a:hover { color: var(--emerald); }
+
+/* Outline CTA under the copy blocks (navy on light fields) */
+.ae-cta {
+  display: inline-flex;
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+
+/* ============================================================
+   HERO — navy field: title + two student quotes flanking the photo
+   stage with the brand-green disc (same disc language as .us-circle)
+   ============================================================ */
+.ae-hero {
+  position: relative;
+  width: 100%;
+  background: var(--navy);
+  color: #ffffff;
+  overflow: hidden; /* clips the disc where it runs past the bottom edge */
+  padding-top: clamp(3rem, 7vh, 5.5rem); /* header clearance (band adds more on desktop) */
+  padding-left: var(--fh-edge);
+  padding-right: var(--fh-edge);
+  padding-bottom: 0; /* the photo stage runs to the section's bottom edge */
+}
+
+/* Desktop (band visible >=1180px): fill the full viewport height under the
+   fixed header + 64px band. Content stays pinned to the section BOTTOM so
+   the students' feet still rest on the white edge — any extra space lands
+   above the title instead of below the stage. Disc/photo geometry untouched.
+   min-height (not height) so short viewports never clip the content. */
+@media (min-width: 1180px) {
+  .ae-hero {
+    display: flex;
+    flex-direction: column;
+    /* Fill the viewport under the fixed header + 64px band — but on very
+       TALL windows (e.g. half a 4K monitor) cap it so we don't create a
+       giant empty navy void above the unit; the white statement section
+       simply becomes visible below instead. Normal displays are untouched:
+       at 1440×900 and 1920×1080/1400 this min() still resolves to full vh. */
+    min-height: min(calc(100vh - 64px), calc(100vw * 0.7));
+    /* Extra clearance under the fixed menu (it's ~115px tall; base padding
+       left only ~12px of gap). Composition stays pinned to the bottom. */
+    padding-top: calc(clamp(3rem, 7vh, 5.5rem) + 40px);
+  }
+  .ae-composition { margin-top: auto; }
+}
+
+/* LOCKED COMPOSITION — one box that scales as a single unit with the
+   viewport (same size spec as the old stage). The disc + students fill it,
+   and BOTH quotes are absolutely positioned inside it in container units
+   (cqw/cqh), so at ANY width they stay exactly where they are relative to
+   the circle and the lines keep pointing at the students. */
+.ae-composition {
+  position: relative;
+  z-index: 1;
+  /* FIXED at the approved 1440×900 size — no more shrinking with the
+     viewport. Quotes/lines stay locked to it (cqw/cqh of this box). */
+  width: 475px;
+  height: 522px;
+  margin-inline: auto; /* centered in the hero content area */
+  container-type: size; /* cqw/cqh for the quotes + lines inside */
+  /* The ENTIRE unit scales as one rigid piece — circle, students, quotes
+     and lines all move together so nothing ever drifts apart:
+       • GROWS with the display (bigger screens → bigger hero),
+       • SHRINKS to fit when narrow (quotes reach ~664px past center each
+         side = ~1328px total spread, so that's the horizontal cap),
+       • = exactly 1 at 1440×900 → identical to the approved look.
+     Origin at bottom-center keeps the students' feet on the white edge. */
+  /* every term is length÷length → pure number (min/max need matching types) */
+  transform: scale(
+    min(calc((100vw - 24px) / 1328px),
+        max(calc(100vw / 1440px), calc(100vh / 900px)))
+  );
+  transform-origin: 50% 100%;
+}
+
+.ae-hero__title {
+  /* Extra breathing room between the title and the composition below */
+  margin-bottom: clamp(2rem, 5vh, 4rem);
+  /* Text always paints above disc + photo if they ever collide (user rule) */
+  position: relative;
+  z-index: 2;
+}
+
+/* Student quote blocks (David left / Sam right).
+   position + z-index keep the text ABOVE the disc and student photo if
+   they ever collide — the stage's transformed subtree otherwise paints on
+   top of these static figures (user rule). */
+.ae-quote {
+  margin: 0;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+.ae-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 3.03cqw; /* was clamp(.6rem,1vw,.95rem) = 14.4px @1440 — now scales with the composition */
+  flex-wrap: wrap;
+}
+/* Cursive name — same spec as the homepage accents, sized down for the hero.
+   cqw so it scales WITH the locked composition (was clamp(2.3rem,3.2vw,3.4rem) = 46.08px @1440). */
+.ae-name {
+  margin: 0;
+  font-size: 9.7cqw;
+  line-height: 1;
+}
+.ae-quote .us-grade { color: rgba(255, 255, 255, 0.92); }
+/* Grade label scales with the composition too (was clamp(.95rem,1.25vw,1.2rem) = 18px @1440). */
+ae-composition .us-grade { font-size: 3.79cqw; }
+
+.ae-text {
+  margin: 3.03cqw 0 0;
+  max-width: 32ch;
+  font-size: 3.49cqw; /* was clamp(.98rem,1.15vw,1.15rem) = 16.56px @1440 */
+  line-height: 1.6;
+  letter-spacing: .01em;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.94);
+}
+/* David only — narrower column so his lines break earlier ("…structure, but")
+   instead of running to the viewport edge on tall/wide displays. Sam keeps
+   the shared 32ch above; this override is scoped to the left quote.
+   position:relative makes THIS block the containing block for the connector
+   line below, so it tracks David's text (not the figure box). */
+.ae-quote--l .ae-text {
+  position: relative;
+  max-width: 26ch;
+}
+
+/* Hairline extending OUT from David's quote, running a bit ONTO the green
+   disc. It now lives INSIDE .ae-text (position:relative) and is anchored to
+   that text block — so it ALWAYS sits on his last line at every viewport,
+   instead of drifting with the figure box onto the students' faces.
+   em units scale with the composition (the text's font-size), keeping the
+   proportions identical as the whole unit grows/shrinks. */
+.ae-rule-line {
+  position: absolute;
+  left: 100%;    /* start at David's text right edge (≈ the disc's left rim) */
+  bottom: 0.8em; /* midline of his LAST line — tracks the text, not the box */
+  width: 7em;    /* runs a bit onto the disc; scales with the composition */
+  height: 2px;
+  background: #ffffff;
+}
+/* Right quote — LOCKED to the composition at its approved spot
+   (measured at 1440): left edge +88.7% of stage width, top −15.3% of stage
+   height (the "pulled left / raised" tuning is baked into these offsets).
+   Vertical hairline on its left edge — border → ::before so it can run PAST
+   the box bottom and overlap onto the disc/students below. */
+.ae-quote--r {
+  position: absolute;
+  left: 88.7cqw;
+  top: -15.3cqh;
+  width: 101cqw;
+  padding-left: clamp(.9rem, 1.4vw, 1.5rem);
+}
+.ae-quote--r::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  /* starts at Sam's first text line ("Flint Hill is known…") — name row + gap,
+     nudged down once per user review (74px @1440 = 14.2cqh) */
+  top: 14.2cqh;
+  width: 2px;
+  /* Far end PINNED to the circle: bottom stays ~152px above the disc CENTER
+     at every size (center_y − line_top = 1.144×stageH − 0.6285×stageW − 146,
+     derived from .ae-stage/.ae-circle geometry). As the disc grows/shrinks
+     this end tracks it and the line simply gets longer/shorter from that
+     point. Top stays on Sam's text. */
+  height: calc(1.144 * 522px - 0.6285 * 475px - 146px); /* = 152.5px — bottom pinned ~152px above disc center */
+  background: #ffffff;
+}
+/* Left quote — LOCKED to the composition at its approved spot (measured at
+   1440): left edge −89.7% of stage width, top aligned with the stage top,
+   box width 75.8% of stage width. */
+.ae-quote--l {
+  position: absolute;
+  /* Right end stays EXACTLY where it ended before (left+width = -13.9cqw);
+     the left edge is pulled in by 10cqw so David no longer touches the
+     viewport edge on tall/wide displays. */
+  left: -79.7cqw;
+  /* Anchor by BOTTOM (was top:0) so his divider line stays at its original
+     height and the narrower, taller text grows UPWARD from it instead of
+     stretching down off-screen. 68cqh reproduces the pre-change line height
+     (measured ~235px below comp-top at tall); verified at base + tall. */
+  bottom: 68cqh;
+  width: 65.8cqw;
+}
+
+/* Load-in choreography (desktop): on page load Sam fades + floats UP into
+   place while David fades + floats DOWN — a symmetric settle. Only the
+   `from` state is keyed; each quote animates to its natural resting style.
+   fill-mode both keeps them hidden during the short delay so there's no
+   flash of final position first. */
+@keyframes ae-quote-float-up {
+  from { opacity: 0; transform: translateY(40px); }
+}
+@keyframes ae-quote-float-down {
+  from { opacity: 0; transform: translateY(-40px); }
+}
+@media (min-width: 900px) {
+  .ae-quote--l {
+    animation: ae-quote-float-down 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.15s both;
+  }
+  .ae-quote--r {
+    animation: ae-quote-float-up 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.15s both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ae-quote--l,
+  .ae-quote--r { animation: none; }
+}
+
+/* Photo stage — portrait box; the disc sits behind and bleeds off-bottom.
+   container-type lets .ae-photo position itself in stage-relative units
+   (cqw = % of stage width, cqh = % of stage height) so it tracks the disc. */
+.ae-stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%; /* explicit — inset-stretch + container-type:size collapses to
+                  width:0 in Chrome; definite % of the composition is safe */
+  height: 100%;
+  container-type: size;
+  /* The middle grid track is `auto` (it absorbs leftover row width) and is
+     wider than this fixed-width stage; without centering the stage sits at
+     the track's start and reads left-of-center. Side tracks are identical,
+     so centering in-track = true page center at every width. */
+  justify-self: center;
+}
+/* Disc + photo unit — both children scale TOGETHER around the stage's
+   bottom-center corner (the section edge), so their mutual alignment is
+   preserved exactly while shrinking 10% (user-tuned). Feet stay on the
+   white edge; nothing below can paint over them. */
+.ae-disc-unit {
+  position: absolute;
+  inset: 0;
+  transform: scale(0.9);
+  transform-origin: 50% 100%;
+}
+/* Brand-green disc — same texture/tint as .us-circle.
+   Scaled up ~12% with the photo (same chord ratio, so the top corners
+   stay inside the rim); bottom offset in cq units keeps the photo's
+   vertical position unchanged. */
+.ae-circle {
+  position: absolute;
+  left: 50%;
+  bottom: calc(-16cqh - 7.47cqw);
+  transform: translateX(-50%);
+  width: 154.6%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-color: var(--emerald);
+  background-image:
+    linear-gradient(rgba(0, 147, 87, 0.55), rgba(0, 147, 87, 0.55)),
+    url('https://www.flinthill.org/wp-content/uploads/2019/11/bgfooter.png');
+  background-size: 100% 100%, cover;
+  background-position: center;
+}
+/* Student photo — the ENTIRE image (object-fit: contain, no crop), enlarged
+   ~12%. Anchored to the stage BOTTOM so its bottom edge rests exactly on the
+   container's bottom edge — nothing bleeds below the stage, so the white
+   statement section can never paint over it. Width = 85% of the disc diameter;
+   top and sides may run past the disc rim — that bleed is intentional. */
+.ae-photo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  /* Students shifted down ANOTHER 40px (circle untouched — user direction).
+     .ae-disc-unit scales everything 0.9x around the section edge, so a
+     layout offset of 109px renders as exactly 80px total visible shift.
+     Hero overflow:hidden clips anything past the edge. */
+  bottom: -109px;
+  top: auto;
+  width: 131.4cqw;              /* = 85% of the disc diameter */
+  aspect-ratio: 1;
+  object-fit: contain;
+  z-index: 1;
+}
+
+/* Mobile hero — title, then the two quotes side-by-side (50/50), then the
+   circle + students pinned to the section bottom. The locked composition
+   becomes a 2-column grid: row 1 = David | Sam, row 2 = stage spanning both.
+   It fills the remaining hero height so the stage sits flush at the bottom,
+   with the disc bleeding off the edge exactly like desktop. */
+@media (max-width: 899px) {
+  .ae-hero {
+    display: flex;
+    flex-direction: column;
+    /* Give the section real height so the stage can be pinned to its bottom
+       instead of just sitting right under short content. */
+    min-height: calc(100svh - 64px);
+    /* Clear the fixed logo+burger bar (≈63px) with breathing room — the base
+       padding-top (7vh) tucks the title a few px under it on shorter phones. */
+    padding-top: clamp(5rem, 10vh, 6.5rem);
+  }
+  .ae-composition {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* two equal (50/50) columns for the quotes */
+    column-gap: clamp(1rem, 4vw, 2rem);
+    row-gap: clamp(1.25rem, 3vh, 2rem);
+    align-items: start;
+    width: 100%;
+    /* Fill whatever hero height is left under the title so the stage (last
+       grid row) lands at the section's bottom edge. */
+    flex: 1;
+    min-height: 0;
+    /* Row 2 must ABSORB any leftover height (tall narrow windows — e.g. a
+       high-DPI desktop that falls under 900 CSS px wide — otherwise both
+       auto rows sit at the top and the circle + students float above the
+       section bottom). The stage then pins to the row's bottom edge. */
+    grid-template-rows: auto minmax(0, 1fr);
+    container-type: inline-size; /* cqw/cqh still work for the disc + photo */
+    transform: none;             /* stacked layout — no desktop fit-scaling */
+  }
+  /* Row 1: the two quotes, one per column (DOM order is David, stage, Sam —
+     grid placement below puts them side by side regardless of that). */
+  .ae-quote--l { grid-column: 1; grid-row: 1; order: initial; }
+  .ae-quote--r { grid-column: 2; grid-row: 1; order: initial; }
+  /* Row 2: the stage spans both columns and sits at the bottom. */
+  .ae-stage    { grid-column: 1 / -1; grid-row: 2; order: initial; }
+  /* The disc may bleed slightly past the stage bottom on mobile (navy ground
+     below it), but nothing in flow may sit under the photo — see .ae-quote--l. */
+  .ae-circle {
+    bottom: calc(-7.47cqw);
+    width: 147.8%;
+  }
+  .ae-stage {
+    position: relative; /* back in flow (desktop uses absolute inset:0) */
+    inset: auto;
+    order: 2;
+    align-self: end; /* sit on the BOTTOM of its (grown) row → section edge */
+    width: min(80vw, 430px);
+    height: auto;
+    aspect-ratio: 4 / 5.1; /* definite height → its own container-type:size works */
+    margin-inline: auto;
+  }
+  /* Photo anchored to the stage bottom (same rule as desktop): box bottom =
+     stage bottom at every width, so it can never bleed over the quotes below.
+     Width = 85% of the mobile disc diameter. */
+  .ae-photo {
+    top: auto;
+    bottom: -64.5px; /* same +40px visible shift as desktop (unit scale math) */
+    width: 125.6cqw;
+  }
+  /* No extra margin needed anymore — with the photo's bottom resting on the
+     stage bottom, nothing paints below it (the old bleed-over-quotes hack is
+     gone). */
+  /* Quotes back to normal flow (desktop uses absolute lock). Each now lives
+     in its own 50% grid column above the stage. */
+  .ae-quote--l,
+  .ae-quote--r {
+    position: static;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    width: auto;
+    min-width: 0; /* let text wrap inside the narrow column */
+  }
+  .ae-rule-line,
+  .ae-quote--r::before { display: none; } /* desktop composition detail */
+  .ae-quote--r {
+    border-left: none;
+    padding-left: 0;
+  }
+  /* Both quotes read the same in their half-width columns. */
+  .ae-quote--l .ae-text,
+  .ae-quote--r .ae-text { max-width: none; }
+}
+
+/* ============================================================
+   TIMELINE — date column + copy rows with hairlines
+   ============================================================ */
+.ae-tl {
+  margin-top: clamp(1.5rem, 3vh, 2.25rem);
+  border-top: 1px solid rgba(0, 73, 124, 0.35);
+}
+.ae-tl-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: clamp(1rem, 2.5vw, 3rem);
+  padding: clamp(1.1rem, 2.4vh, 1.7rem) 0;
+  border-bottom: 1px solid rgba(0, 73, 124, 0.35);
+}
+.ae-tl-date {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  line-height: 1.5;
+  font-size: clamp(.9rem, 1.1vw, 1.1rem);
+  color: var(--navy);
+}
+.ae-tl-text { margin: 0; max-width: 74ch; }
+@media (max-width: 899px) {
+  .ae-tl-row { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
+}
+
+/* ============================================================
+   CONNECT WITH US — admission team directory
+   Ported from E:\admission-team (contact app), restyled to the
+   Apply & Engage design system. Square corners, brand blues.
+   .at-wrap/.at-row/.at-card  — card grid (2 rows of five)
+   .at-reveal                 — info row revealed on hover/click
+   .at-modal*                 — booking wizard modal + form
+   ============================================================ */
+.at-wrap {
+  width: 100%; /* full section content width — aligns with the title (user-tuned) */
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+
+/* ---------- card rows ---------- */
+.at-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(8px, 1vw, 14px);
+}
+@media (max-width: 1099px) {
+  .at-row { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
+
+.at-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--blue);
+  color: #ffffff;
+  padding: clamp(.9rem, 1.2vw, 1.25rem) .8rem clamp(1rem, 1.3vw, 1.35rem);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color .2s ease;
+}
+.at-card:hover,
+.at-card--active { background: var(--sky); }
+.at-card:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, .85);
+  outline-offset: -4px;
+}
+
+/* Top division badge (left-aligned bar, like the source app) */
+.at-badge {
+  width: 100%;
+  text-align: left;
+  font-size: .68rem;
+  letter-spacing: .05em;
+  color: rgba(255, 255, 255, .78);
+  margin-bottom: clamp(.6rem, 1vh, .9rem);
+}
+
+.at-avatar {
+  width: clamp(64px, 6.5vw, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .12);
+  flex-shrink: 0;
+}
+.at-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+.at-avatar-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: #ffffff;
+  background: rgba(255, 255, 255, .2);
+}
+
+.at-name {
+  margin: clamp(.6rem, 1vh, .85rem) 0 0;
+  font-size: clamp(.95rem, 1.05vw, 1.06rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.at-role {
+  margin: .3rem 0 0;
+  font-size: .74rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, .88);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- info reveal row (between the two card rows) ----------
+   Fixed-height stack: every officer's row is rendered and overlaid; the
+   tallest one (Jennifer Webb) stays in flow as an invisible sizer, so the
+   section height never changes when switching cards. No border box — just
+   extra top/bottom breathing room. */
+.at-reveal-stack {
+  position: relative;
+  margin-top: clamp(.9rem, 1.6vh, 1.25rem);
+}
+.at-slot {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .25s ease, visibility 0s linear .25s;
+}
+.at-slot.is-sizer { position: static; } /* invisible in-flow ghost that sizes the stack */
+.at-slot > .at-reveal { height: 100%; box-sizing: border-box; }
+.at-slot.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity .25s ease, visibility 0s;
+}
+.at-reveal {
+  background: #ffffff;
+  padding: clamp(1.75rem, 3vh, 2.4rem) clamp(1.2rem, 2.4vw, 2rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  flex-wrap: wrap;
+}
+
+/* ---------- narrow screens (<900px): cards in a 2-up grid, click-only; the
+   tapped officer's info renders inline directly under that pair (spanning both
+   columns) and pushes the remaining cards down — no overlay ---------- */
+.at-narrow { display: none; }
+@media (max-width: 899px) {
+  .at-desktop { display: none; }
+  .at-narrow {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(8px, 1vw, 14px);
+  }
+  .at-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(8px, 1vw, 14px);
+  }
+  .at-inline .at-reveal { padding: clamp(1.1rem, 3vh, 1.6rem) clamp(.9rem, 2vw, 1.25rem); }
+}
+.at-reveal__info {
+  flex: 1 1 min(420px, 100%);
+  max-width: 680px;
+  min-width: 0;
+}
+/* Member name — cursive accent, same family as the hero's David / Sam */
+.at-reveal__name {
+  margin: 0 0 clamp(.4rem, .9vh, .65rem);
+  font-family: var(--cursive);
+  font-size: clamp(1.9rem, 2.7vw, 2.5rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.at-q-prompt {
+  margin: 0 0 .45rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+.at-q-answer {
+  margin: 0 0 clamp(.8rem, 1.4vh, 1.1rem);
+  font-style: italic;
+  font-size: clamp(.97rem, 1.1vw, 1.12rem);
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.at-contact {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  flex-wrap: wrap;
+  font-size: .85rem;
+}
+.at-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .15s ease;
+}
+.at-link:hover { color: var(--blue); text-decoration: underline; }
+.at-copy-btn {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: .72rem;
+  letter-spacing: .02em;
+  color: #6b7f91;
+  cursor: pointer;
+  transition: color .15s ease;
+}
+.at-copy-btn:hover { color: var(--ink); }
+.at-dot { color: #b9c9d6; }
+
+/* Action buttons — outline blue, fill on hover (source-app behavior) */
+.at-actions {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  min-width: min(300px, 100%);
+  flex-shrink: 0;
+}
+.at-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .62rem 1rem;
+  border: 1px solid var(--blue);
+  background: transparent;
+  color: var(--blue);
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  line-height: 1.25;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease;
+}
+.at-btn svg { flex-shrink: 0; }
+.at-btn:hover { background: var(--blue); color: #ffffff; }
+
+/* ============================================================
+   BOOKING WIZARD MODAL
+   ============================================================ */
+.at-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(21, 42, 59, .72);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(.75rem, 2vw, 1.5rem);
+}
+.at-modal {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  max-height: min(92vh, 880px);
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 64px rgba(21, 42, 59, .35);
+  padding: clamp(1.4rem, 3vw, 2.25rem);
+}
+.at-close {
+  position: absolute;
+  top: .9rem;
+  right: .9rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #F1F5F8;
+  color: #48607A;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.at-close:hover { background: #E2EBF1; }
+
+/* ---------- form ---------- */
+.at-form { display: block; }
+.at-modal-head h3 {
+  margin: .4rem 0 .3rem;
+  font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--ink);
+}
+.at-modal-head p {
+  margin: 0;
+  font-size: .82rem;
+  color: #5c7186;
+}
+.at-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+.at-kicker svg { flex-shrink: 0; }
+.at-kicker--muted { color: #8fa3b5; }
+
+/* Counselor snippet */
+.at-counselor {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  background: var(--mist);
+  border: 1px solid var(--line);
+  padding: .65rem .8rem;
+  margin-top: 1.1rem;
+}
+.at-counselor img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+}
+.at-counselor strong {
+  display: block;
+  font-size: .85rem;
+  color: var(--ink);
+}
+.at-counselor em {
+  display: block;
+  font-style: normal;
+  font-size: .74rem;
+  line-height: 1.3;
+  color: #5c7186;
+}
+
+/* Date + time pickers */
+.at-field { margin-top: 1.15rem; }
+.at-field > label {
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: .5rem;
+}
+.at-dates {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .5rem;
+}
+@media (max-width: 640px) {
+  .at-dates { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.at-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.at-chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: #33475c;
+  font-family: inherit;
+  font-size: .78rem;
+  font-weight: 500;
+  padding: .5rem .65rem;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color .15s ease, background-color .15s ease, color .15s ease;
+}
+.at-chip:hover { border-color: var(--blue); }
+.at-chip--on {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Family information */
+.at-family {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: .8rem;
+}
+.at-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .8rem;
+}
+@media (max-width: 560px) {
+  .at-grid2 { grid-template-columns: minmax(0, 1fr); }
+}
+.at-input { display: block; min-width: 0; }
+.at-input > span {
+  display: block;
+  font-size: .74rem;
+  color: #5c7186;
+  margin-bottom: .3rem;
+}
+.at-input input,
+.at-input select,
+.at-input textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: #ffffff;
+  padding: .55rem .7rem;
+  font-family: inherit;
+  font-size: .85rem;
+  color: var(--ink);
+}
+.at-input textarea { resize: vertical; }
+.at-input input:focus,
+.at-input select:focus,
+.at-input textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 166, .14);
+}
+
+/* Submit */
+.at-submit { margin-top: 1.4rem; }
+.at-btn-solid {
+  appearance: none;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  border: none;
+  background: var(--blue);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: .85rem 1.2rem;
+  cursor: pointer;
+  transition: background-color .18s ease;
+}
+.at-btn-solid:hover { background: var(--sky); }
+.at-submit p {
+  margin: .6rem 0 0;
+  text-align: center;
+  font-size: .72rem;
+  color: #6b7f91;
+}
+
+/* ---------- confirmed state ---------- */
+.at-confirmed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: .5rem;
+}
+.at-check {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0, 147, 87, .12);
+  color: var(--emerald);
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+}
+.at-confirmed h3 {
+  margin: .35rem 0 .4rem;
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-weight: 600;
+  color: var(--ink);
+}
+.at-confirmed > p {
+  margin: 0;
+  max-width: 430px;
+  font-size: .85rem;
+  line-height: 1.5;
+  color: #5c7186;
+}
+.at-confirmed strong { color: var(--ink); }
+.at-summary {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--mist);
+  padding: 1rem 1.1rem;
+  margin-top: 1.25rem;
+  display: grid;
+  gap: .55rem;
+  text-align: left;
+}
+.at-summary div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: .8rem;
+}
+.at-summary span { color: #6b7f91; flex-shrink: 0; }
+.at-summary strong {
+  color: var(--ink);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.at-confirmed-actions {
+  display: flex;
+  gap: .75rem;
+  width: 100%;
+  margin-top: 1.25rem;
+}
+.at-btn-solid--sm { flex: 1; padding: .7rem 1rem; font-size: .8rem; }
+.at-confirmed-actions .at-btn-solid { width: auto; }
+.at-btn-ghost {
+  appearance: none;
+  flex: 1;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: #33475c;
+  font-family: inherit;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: .7rem 1rem;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.at-btn-ghost:hover { background: #F1F5F8; }
+@media (max-width: 560px) {
+  .at-confirmed-actions { flex-direction: column; }
+}
+.at-privacy {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  margin: 1.1rem 0 0;
+  font-size: .72rem;
+  color: #6b7f91;
+}
+.at-privacy svg { flex-shrink: 0; color: var(--blue); }
+
+/* ============================================================
+   PATHWAY TRAITS — "elevator doors" split (ported from NewFHHome's
+   "Our Pathway of a Student", resting state only)
+   Left photo | center glassy trait buttons | right copy on the active
+   trait's blue. Clicking a button crossfades both sides + recolors.
+   ============================================================ */
+.ae-trait { padding: 0; } /* full-bleed band — no section padding */
+.ae-trait__stage {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: clamp(430px, 62vh, 680px); /* the "half page" band */
+  overflow: hidden;
+}
+/* Left — stacked trait photos (crossfade) */
+.ae-trait__left {
+  flex: 0 0 50%;
+  position: relative;
+  overflow: hidden;
+  background: #021a30; /* dark ground while a photo fades in */
+}
+.ae-trait__img {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.04);
+  transition: opacity .5s ease, transform .6s ease, visibility 0s linear .5s;
+}
+.ae-trait__img.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition: opacity .5s ease .08s, transform .6s ease .08s, visibility 0s;
+}
+.ae-trait__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Right — stacked copy panels on the active trait's blue */
+.ae-trait__right {
+  flex: 0 0 50%;
+  position: relative;
+  overflow: hidden;
+  background-color: #00497b;
+  transition: background-color .45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ae-trait__right[data-active-color="0"] { background-color: #00497b; }
+.ae-trait__right[data-active-color="1"] { background-color: #0066a6; }
+.ae-trait__right[data-active-color="2"] { background-color: #008BCE; }
+.ae-trait__right[data-active-color="3"] { background-color: #009cc5; }
+.ae-trait__right[data-active-color="4"] { background-color: #17b0d1; }
+
+.ae-trait__copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* left padding clears the centered nav card (half its width + margin) */
+  padding: clamp(2rem, 5vh, 3.5rem) clamp(2rem, 4vw, 4.5rem)
+           clamp(2rem, 5vh, 3.5rem) calc(clamp(120px, 11vw, 160px) + 2.2rem);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity .45s ease, transform .45s ease, visibility 0s linear .45s;
+}
+.ae-trait__copy.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity .55s ease .08s, transform .55s ease .08s, visibility 0s;
+}
+.ae-trait__title {
+  margin: 0 0 1.2rem;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+.ae-trait__desc {
+  margin: 0;
+  max-width: 46ch;
+  font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+  line-height: 1.7;
+  color: #E2F0FA;
+}
+
+/* Center — glassy nav card with the five trait buttons */
+.ae-trait__nav {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  width: clamp(210px, 17vw, 264px);
+  display: flex;
+  flex-direction: column;
+  gap: .65rem;
+  padding: .8rem 1rem;
+  background-color: rgba(255, 255, 255, 0.10);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+}
+.ae-trait__btn {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #00497b; /* overridden per active trait below */
+  border: 2px solid transparent;
+  font-family: var(--sans);
+  font-size: clamp(.9rem, 1vw, 1.05rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #ffffff;
+  padding: 1.25rem 1rem;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s ease, color .2s ease, border-color .2s ease,
+              background-color .45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ae-trait__btn:hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  color: #ffffff;
+}
+/* Buttons take the ACTIVE trait's blue (NewFHHome spec) */
+.ae-trait__nav[data-active-color="0"] .ae-trait__btn { background-color: #00497b; }
+.ae-trait__nav[data-active-color="1"] .ae-trait__btn { background-color: #0066a6; }
+.ae-trait__nav[data-active-color="2"] .ae-trait__btn { background-color: #008BCE; }
+.ae-trait__nav[data-active-color="3"] .ae-trait__btn { background-color: #009cc5; }
+.ae-trait__nav[data-active-color="4"] .ae-trait__btn { background-color: #17b0d1; }
+/* The current button is white-on-dark via inline style in App.tsx */
+
+@media (prefers-reduced-motion: reduce) {
+  .ae-trait__img, .ae-trait__copy { transition: none; }
+}
+
+/* Mobile — stacked: photo on top, buttons as a wrap row, copy below */
+@media (max-width: 899px) {
+  .ae-trait__stage { flex-direction: column; height: auto; }
+  .ae-trait__left { flex: none; width: 100%; aspect-ratio: 4 / 3; }
+  .ae-trait__nav {
+    position: static;
+    transform: none;
+    width: auto;
+    margin: clamp(1.25rem, 4vw, 2rem) var(--fh-edge);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    padding: .75rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .ae-trait__btn { width: auto; flex: 1 1 auto; padding: .9rem .75rem; font-size: .78rem; letter-spacing: .06em; }
+  .ae-trait__right { flex: none; width: 100%; }
+  /* Only the active copy stays in flow (others would stack invisibly) */
+  .ae-trait__copy {
+    position: static;
+    transform: none;
+    padding: clamp(1.75rem, 6vw, 2.5rem) var(--fh-edge);
+  }
+  .ae-trait__copy:not(.is-active) { display: none; }
+}
+
+/* ============================================================
+   APPLYING TO FLINT HILL — step flow + centered outline CTA
+   ============================================================ */
+.ae-apply {
+  padding-block: clamp(2rem, 4vh, 3rem); /* tighter than the standard section field */
+}
+.ae-apply__title {
+  text-align: center;
+  font-size: clamp(1.35rem, 1.9vw, 1.9rem);
+  line-height: 1.7;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  color: var(--navy); /* same blue as the step links */
+}
+.ae-steps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2.75rem); /* user-tuned: more air between steps */
+  list-style: none;
+  margin: clamp(1.75rem, 3.5vh, 2.5rem) 0 0;
+  padding: 0;
+}
+.ae-step a {
+  display: inline-block;
+  text-align: center;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  line-height: 1.45;
+  font-size: clamp(.82rem, 1vw, 1rem);
+  color: var(--navy);
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.ae-step a:hover { color: var(--emerald); }
+.ae-step-chev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 73, 124, 0.5);
+}
+
+/* APPLY TODAY — the white outline box (navy border/text on mist) */
+.ae-apply-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(2rem, 4vh, 3rem);
+}
+.ae-apply-btn {
+  font-size: clamp(.95rem, 1.05vw, 1.1rem);
+  padding: .95rem 2.6rem;
+}
+
+/* Fine print under the title — small, centered (box + text), navy */
+.ae-apply__note {
+  margin-top: clamp(.9rem, 1.8vh, 1.4rem);
+  margin-inline: auto;
+  max-width: min(760px, 100%);
+  text-align: center;
+  font-size: clamp(.78rem, .9vw, .92rem);
+  line-height: 1.6;
+  color: var(--navy);
+}
+.ae-apply__note a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  transition: color .2s ease;
+}
+.ae-apply__note a:hover { color: var(--emerald); }
+
+/* ============================================================
+   FIND WHERE YOU BELONG — accordion (starts closed) + campus photo
+   ============================================================ */
+.ae-belong__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: stretch;
+}
+.ae-belong__photo {
+  position: relative;
+  margin: 0;
+  min-height: clamp(360px, 52vh, 640px);
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(21, 42, 59, 0.10);
+}
+/* Photo pinned to the TOP of the section container — aligned with the title,
+   filling down to the bottom (user-tuned). */
+.ae-belong .ae-block { padding-top: clamp(.25rem, .6vh, .75rem); }
+.ae-belong__photo {
+  align-self: stretch;
+  height: 100%;
+}
+/* Crossfade stack — default photo + one per accordion item.
+   On change the incoming image fades in sliding from the RIGHT (user-tuned). */
+.ae-belong__photo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: translateX(4%);
+  transition: opacity .5s ease, transform .65s cubic-bezier(.22, .61, .36, 1);
+}
+.ae-belong__photo img.is-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (max-width: 899px) {
+  .ae-belong__grid { grid-template-columns: minmax(0, 1fr); }
+  .ae-belong__photo { order: 2; min-height: 0; aspect-ratio: 16 / 10; }
+}
+
+/* Accordion — navy circle +/− icons, hairline rows, smooth open/close */
+.ae-acc {
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+/* Vertical connector line through the +/− circles (navy; green on the open item) */
+.ae-acc-item { position: relative; }
+.ae-acc-item::before {
+  content: "";
+  position: absolute;
+  left: calc(clamp(24px, 2.6vw, 30px) / 2 - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--navy);
+}
+.ae-acc-item.is-open::before { background: var(--emerald); }
+/* Trim the ends so the line starts/ends at the first & last circle centers */
+.ae-acc-item:first-child::before {
+  top: calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2);
+}
+.ae-acc-item:last-child::before {
+  bottom: calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2);
+}
+/* Open item (not the first): keep its top stub BLUE, green from its circle down —
+   plus the next item's top stub turns green so it reaches the NEXT circle */
+.ae-acc-item.is-open:not(:first-child)::before {
+  background: linear-gradient(
+    to bottom,
+    var(--navy) calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2),
+    var(--emerald) 0
+  );
+}
+.ae-acc-item.is-open + .ae-acc-item::before {
+  background: linear-gradient(
+    to bottom,
+    var(--emerald) calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2),
+    var(--navy) 0
+  );
+}
+/* Last item open: let its green run down through the panel */
+.ae-acc-item:last-child.is-open::before { bottom: 0; }
+.ae-acc-head {
+  display: flex;
+  align-items: center;
+  gap: clamp(.8rem, 1.2vw, 1.1rem);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: clamp(.95rem, 1.9vh, 1.3rem) 0;
+  text-align: left;
+  font-family: var(--sans);
+}
+.ae-acc-icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(24px, 2.6vw, 30px);
+  height: clamp(24px, 2.6vw, 30px);
+  border-radius: 50%;
+  background: var(--navy);
+  transition: background .2s ease;
+}
+.ae-acc-head:hover .ae-acc-icon { background: var(--emerald); }
+.ae-acc-item.is-open .ae-acc-icon { background: var(--emerald); }
+/* plus = two bars; open → vertical bar fades out, leaving a minus */
+.ae-acc-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.ae-acc-icon i:nth-child(2) { transform: translate(-50%, -50%) rotate(90deg); transition: opacity .2s ease; }
+.ae-acc-item.is-open .ae-acc-icon i:nth-child(2) { opacity: 0; }
+
+.ae-acc-title {
+  font-size: clamp(1.02rem, 1.3vw, 1.3rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.35;
+  color: var(--navy);
+}
+.ae-acc-head:hover .ae-acc-title { color: var(--emerald); }
+.ae-acc-item.is-open .ae-acc-title { color: var(--emerald); }
+
+/* Smooth height animation via the grid-rows trick (no JS measuring) */
+.ae-acc-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .32s ease;
+}
+.ae-acc-item.is-open .ae-acc-panel { grid-template-rows: 1fr; }
+.ae-acc-body { overflow: hidden; min-height: 0; }
+.ae-acc-body p {
+  margin: 0 0 clamp(1rem, 2vh, 1.4rem) calc(clamp(24px, 2.6vw, 30px) + clamp(.8rem, 1.2vw, 1.1rem));
+  max-width: 58ch;
+  font-size: clamp(.98rem, 1.15vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--slate);
+}
+
+/* ============================================================
+   HUSKY HIGHLIGHTS — full-bleed image carousel
+   Exact port of the NewFHHome homepage "Profiles" section design
+   (flint-hill.css PROFILES SECTION), class names re-prefixed .ae-*
+   ============================================================ */
+.ae-profiles {
+  position: relative;
+  height: 70vh;
+  min-height: 460px;
+  overflow: hidden;
+  background: #0b192c;
+  color: #ffffff;
+}
+.ae-pro-track {
+  display: flex;
+  height: 100%;
+  transition: transform .65s cubic-bezier(.33, 1, .68, 1);
+  will-change: transform;
+}
+.ae-pro-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.ae-pro-slide > img {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 32% !important;
+}
+.ae-pro-grad {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 80%;
+  /* Slightly darker scrim for stronger text contrast */
+  background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.52) 38%, rgba(0,0,0,0) 100%);
+  pointer-events: none;
+}
+.ae-pro-copy {
+  position: absolute;
+  left: max(4vw, calc((100vw - 1200px) / 2));
+  right: auto;
+  bottom: clamp(20px, 4vh, 44px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 1.4vh, 14px);
+  max-width: min(560px, calc(100vw - 8vw));
+  padding: 0;
+  background: none;
+  z-index: 2;
+}
+.ae-pro-linkwrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(8px, 1.4vh, 14px);
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+.ae-pro-title {
+  margin: 0;
+  max-width: 26ch;
+  overflow-wrap: break-word;
+  word-break: normal;
+  color: #ffffff !important;
+  font-size: clamp(1.9rem, 3vw, 2.75rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.01em !important;
+}
+.ae-pro-kicker {
+  font-size: clamp(11px, 0.95vw, 14px) !important;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  font-weight: 700;
+  /* Same cyan the homepage uses for its "Husky Highlights Blog" kickers */
+  color: var(--cyan);
+}
+.ae-pro-excerpt {
+  margin: 0;
+  max-width: min(48ch, 100%);
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  color: rgba(255,255,255,.8) !important;
+  font-size: clamp(.95rem, 1.05vw, 1.1rem) !important;
+  line-height: 1.6 !important;
+}
+/* "Read More" — bold white underline, same size as the excerpt text (inherits it) */
+.ae-pro-readmore {
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+/* Keep "Read More" + link-out icon as one unbreakable unit (never split across lines) */
+.ae-pro-readmore-unit {
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+}
+.ae-pro-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: clamp(6px, 1.2vh, 12px);
+}
+.ae-pro-arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(255, 255, 255, .18);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.ae-pro-arrow:hover {
+  background: var(--blue) !important;
+  color: #ffffff;
+}
+.ae-pro-plus {
+  flex: 0 0 auto;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: clamp(8px, 0.9vw, 14px);
+  vertical-align: -2px;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.ae-pro-plus svg {
+  width: clamp(12px, 1vw, 15px);
+  height: auto;
+  display: block;
+}
+.ae-pro-plus:hover {
+  opacity: .8;
+  transform: translate(2px, -2px);
+}
+
+@media (max-width: 640px) {
+  .ae-profiles { min-height: 420px; }
+  .ae-pro-copy { bottom: clamp(18px, 4vh, 32px); gap: 10px; padding: 0; max-width: calc(100vw - 32px); left: 16px; }
+  .ae-pro-title { max-width: none; font-size: clamp(1.5rem, 6.4vw, 1.9rem) !important; }
+  .ae-pro-excerpt { font-size: 1.15rem !important; line-height: 1.3 !important; }
+  /* Mobile: scrim stays full-height (behind ALL of the text) but is fully
+     transparent above the title — dark only starts at the text block and eases off */
+  .ae-pro-grad {
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,.86) 0%, rgba(0,0,0,.74) 32%, rgba(0,0,0,.4) 50%, rgba(0,0,0,0) 64%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ae-pro-track { transition: none; }
+}
+
+/* ============================================================
+   TUITION & FINANCIAL AID — page sections (.fa-*)
+   Built on the shared tokens above; every value follows the same
+   scale (type, hairlines, square-corner buttons, brand palette).
+   ============================================================ */
+
+/* Shared content wrapper for this page (same 1600px cap as .ae-block) */
+.fa-inner {
+  width: 100%;
+  max-width: var(--fh-content-max);
+  margin-inline: auto;
+}
+
+/* ---------- 2026-27 TUITION — division rate table on the gray field
+   (user request 2026-11-17: #EFEFEF = var(--gray), was --mist) ---------- */
+.fa-tuition { background: var(--gray); }
+/* Smaller tracked heading spec (same as .ae-apply__title), left-aligned */
+.fa-tuition__title {
+  text-align: left;
+  font-size: clamp(1.35rem, 1.9vw, 1.9rem);
+  line-height: 1.7;
+  letter-spacing: .18em;
+  color: var(--navy);
+  margin-bottom: clamp(1.25rem, 2.6vh, 2rem);
+}
+.tuition-table {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(0, 73, 124, 0.35); /* top hairline (mockup) */
+}
+.tuition-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1rem, 2.5vw, 3rem);
+  padding: clamp(1.1rem, 2.4vh, 1.7rem) 0;
+  border-bottom: 1px solid rgba(0, 73, 124, 0.35); /* every row closes with a hairline */
+}
+.tuition-division {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  line-height: 1.5;
+  font-size: clamp(.9rem, 1.1vw, 1.1rem);
+  color: var(--navy);
+}
+.tuition-price {
+  border-left: 1px solid rgba(0, 73, 124, 0.35); /* the table's vertical divider */
+  padding-left: clamp(1rem, 2.5vw, 3rem);
+  font-size: clamp(.98rem, 1.2vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--navy);
+}
+.tuition-price strong { font-weight: 700; }
+.tuition-price em { font-style: normal; }
+@media (max-width: 899px) {
+  .tuition-row { grid-template-columns: minmax(0, 1fr); gap: .5rem; }
+  .tuition-price { border-left: none; padding-left: 0; }
+}
+
+/* ---------- FINANCIAL AID — intro copy + outline CTAs (white field) ---------- */
+.fa-aid .fh-title {
+  color: var(--blue); /* brand-blue title, same as the Apply & Engage headings */
+  margin-bottom: clamp(1rem, 2vh, 1.5rem);
+}
+.fa-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(.75rem, 1.5vw, 1.25rem);
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+
+/* ============================================================
+   AFFORDING A PRIVATE SCHOOL EDUCATION — blue field accordion + photo
+   Ported 1:1 from Lower School's "Where Curiosity Takes Root" section
+   (E:\LowerSchool\src\design.css .us-belong*). Behavior: first item open on
+   load; click toggles; the right-half photo crossfades to each item's image.
+   KEEP IN SYNC with the LS source if it evolves.
+   ============================================================ */
+/* The photo is the BACKGROUND of the right half of this section (user-tuned):
+   full-bleed top→bottom, edge to edge. So the section itself carries NO
+   padding — the text column does instead. */
+/* Navy field — user request 2026-11-17 (was --blue #0066A6): brand navy =
+   var(--navy) #00497C. Text/icons/lines go white. */
+.us-belong { padding: 0; background: var(--navy); }
+.us-belong__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* image = half the section */
+  gap: 0;
+  align-items: stretch;
+}
+/* Text column — AE's .ae-block wrapper (width/max-width/centering) plus its
+   doubled left/right margins (56→112px desktop) and standard vertical room. */
+.us-belong__col {
+  width: 100%;
+  max-width: var(--fh-content-max);
+  margin-inline: auto;
+  padding: clamp(4rem, 8vh, 6.5rem) calc(var(--fh-edge) * 2);
+}
+/* Title = SAME size/weight as AE's belong title (.ae-belong .fh-title), white on the blue field */
+.us-belong .fh-title { font-size: clamp(1.9rem, 3vw, 3rem); font-weight: 700; color: #ffffff; }
+
+.us-belong__photo {
+  position: relative;
+  margin: 0;
+  min-height: 0;
+  overflow: hidden;
+  align-self: stretch; /* fill the section's FULL height — no white gaps */
+  box-shadow: none;
+}
+/* Crossfade stack — default photo + one per accordion item.
+   On change the incoming image fades in sliding from the RIGHT (user-tuned). */
+.us-belong__photo img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  transform: translateX(4%);
+  transition: opacity .5s ease, transform .65s cubic-bezier(.22, .61, .36, 1);
+}
+.us-belong__photo img.is-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+@media (max-width: 899px) {
+  .us-belong__grid { grid-template-columns: minmax(0, 1fr); }
+  .us-belong__photo { order: 2; min-height: 0; aspect-ratio: 16 / 10; }
+}
+
+/* Accordion — white circle +/− icons (blue bars read as cutouts), hairline rows,
+   smooth open/close. Open state = slightly grayer than white (icon + its line). */
+.us-belong__acc {
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+/* Vertical connector line through the +/− circles (white; slightly grayer when open) */
+.us-belong__item { position: relative; }
+.us-belong__item::before {
+  content: "";
+  position: absolute;
+  left: calc(clamp(24px, 2.6vw, 30px) / 2 - 1px);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ffffff;
+}
+/* FA DEVIATION (user request 2026-11-17): connector line stays SOLID white in every state.
+   Lower School dims it to rgba(255,255,255,.7) around open items (.is-open::before + the two
+   gradient rules below); we omit those overrides so the base #ffffff line applies everywhere. */
+/* Trim the ends so the line starts/ends at the first & last circle centers */
+.us-belong__item:first-child::before {
+  top: calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2);
+}
+.us-belong__item:last-child::before {
+  bottom: calc(clamp(.95rem, 1.9vh, 1.3rem) + clamp(24px, 2.6vw, 30px) / 2);
+}
+/* (FA deviation — see above: no dimming gradients; line is solid white in all states) */
+/* Last item open: let its line run down through the panel */
+.us-belong__item:last-child.is-open::before { bottom: 0; }
+.us-belong__head {
+  display: flex;
+  align-items: center;
+  gap: clamp(.8rem, 1.2vw, 1.1rem);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: clamp(.95rem, 1.9vh, 1.3rem) 0;
+  text-align: left;
+  font-family: var(--sans);
+}
+.us-belong__icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(24px, 2.6vw, 30px);
+  height: clamp(24px, 2.6vw, 30px);
+  border-radius: 50%;
+  background: #ffffff;
+  transition: background .2s ease;
+}
+/* FA DEVIATION (user request 2026-11-17): circles stay SOLID white on hover/open —
+   Lower School dims them to rgba(255,255,255,.7); we omit those overrides so the
+   base #ffffff circle background applies in every state. */
+/* plus = two bars; open → vertical bar fades out, leaving a minus.
+   Bars are the section blue so they read as cutouts in the white circle */
+.us-belong__icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.us-belong__icon i:nth-child(2) { transform: translate(-50%, -50%) rotate(90deg); transition: opacity .2s ease; }
+.us-belong__item.is-open .us-belong__icon i:nth-child(2) { opacity: 0; }
+
+.us-belong__title {
+  /* A bit larger than before (user-tuned in AE — kept identical here) */
+  font-size: clamp(1.15rem, 1.5vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.35;
+  color: #ffffff; /* white on the blue field — open state stays white (icon + line carry the active cue) */
+}
+
+/* Smooth height animation via the grid-rows trick (no JS measuring) */
+.us-belong__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .32s ease;
+}
+.us-belong__item.is-open .us-belong__panel { grid-template-rows: 1fr; }
+.us-belong__body { overflow: hidden; min-height: 0; }
+.us-belong__body p {
+  margin: 0 0 clamp(1rem, 2vh, 1.4rem) calc(clamp(24px, 2.6vw, 30px) + clamp(.8rem, 1.2vw, 1.1rem));
+  max-width: 58ch;
+  /* Same size as AE's trait-section description text (.ae-trait__desc) */
+  font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+  line-height: 1.65;
+  color: #ffffff; /* white on the blue field */
+}
+
+/* ---------- FAQ — right-side +/− toggles with boxed answers (mockup) ---------- */
+.fa-faq .fh-title {
+  text-align: left;
+  font-size: clamp(1.35rem, 1.9vw, 1.9rem);
+  line-height: 1.7;
+  letter-spacing: .18em;
+  color: var(--navy);
+  margin-bottom: clamp(.5rem, 1vh, .75rem);
+}
+.faq { margin-top: clamp(1rem, 2vh, 1.5rem); }
+.faq-item {
+  border-bottom: 1px solid rgba(0, 73, 124, 0.35);
+}
+.faq-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(.8rem, 1.6vw, 1.5rem);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: clamp(1rem, 2vh, 1.35rem) 0;
+  text-align: left;
+  font-family: var(--sans);
+}
+.faq-q {
+  font-size: clamp(.98rem, 1.2vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.4;
+  color: var(--navy);
+}
+.faq-head:hover .faq-q { color: var(--blue); }
+.faq-item.is-open .faq-q { color: var(--emerald); }
+/* +/− icon — right side (mockup), same plus→minus trick as the belong accordion */
+.faq-icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(24px, 2.6vw, 30px);
+  height: clamp(24px, 2.6vw, 30px);
+}
+.faq-icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 58%;
+  height: 2.5px;
+  background: var(--navy);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+.faq-icon i:nth-child(2) { transform: translate(-50%, -50%) rotate(90deg); transition: opacity .2s ease; }
+.faq-item.is-open .faq-icon i:nth-child(2) { opacity: 0; }
+.faq-head:hover .faq-icon i { background: var(--blue); }
+.faq-item.is-open .faq-icon i { background: var(--emerald); }
+/* Smooth height animation via the grid-rows trick (no JS measuring) */
+.faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .32s ease;
+}
+.faq-item.is-open .faq-panel { grid-template-rows: 1fr; }
+.faq-body { overflow: hidden; min-height: 0; }
+/* Answer box — mist fill + green left accent (mockup) */
+.faq-answer {
+  margin: 0 0 clamp(1rem, 2vh, 1.4rem);
+  padding: clamp(.9rem, 1.8vh, 1.3rem) clamp(1rem, 2vw, 1.6rem);
+  background: var(--mist);
+  border-left: 3px solid var(--emerald);
+  max-width: min(1000px, 100%);
+  font-size: clamp(.98rem, 1.15vw, 1.15rem);
+  line-height: 1.65;
+  color: var(--slate);
+}
+.faq-answer a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: .18em;
+  transition: color .2s ease;
+}
+.faq-answer a:hover { color: var(--emerald); }
+.faq-list {
+  margin: .6rem 0 0;
+  padding-left: 1.35rem;
+  display: grid;
+  gap: .4rem;
+}
+
+/* Menu links are never underlined (user request 2026-11-13) — global reset covering
+   desktop nav, dropdowns, utility row, mobile panel, and CTA buttons. */
+#root .fhs-site-header a { text-decoration: none !important; }
+
+/* ============================================================
+   FONT LOCK (user request 2026-11-17) — ONLY our two fonts, never anything else.
+   Everything → Brandon Grotesque; cursive accents → our cursive stack
+   (Aurelly Signature Alt / Caveat). !important + ID specificity so no other rule,
+   stale bundle, or leaked theme style can substitute a different font. ============================================================ */
+#root, #root * {
+  font-family: "brandon-grotesque", sans-serif !important;
+}
+/* Cursive accents — higher specificity than the lock above, so these keep our cursive */
+#root .fh-cursive,
+#root .us-name,
+#root .at-reveal__name {
+  font-family: var(--cursive) !important;
+}
+
+/* ============================================================
+   BOARD OF TRUSTEES — page-specific styles (2026-11-17)
+   Recreation of https://www.flinthill.org/board-of-trustees/ on the shared
+   design system above. Sections:
+     .bot-chair    — The Board Chair quote + circular headshot (white field)
+     .bot-meet     — Meet the Board grid, 22 trustee cards (mist field)
+     .bot-emeritus — Chairman Emeritus + Trustees Emeriti (gray field)
+     .bot-chairs   — Board Chairs timeline (white field)
+     .bot-comm     — Board Committees accordion on navy
+                     (reuses the .us-belong__* row machinery above)
+   ============================================================ */
+
+/* ---------- THE BOARD CHAIR — quote left, circular headshot right ---------- */
+.bot-chair { background: #ffffff; }
+.bot-chair__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  align-items: center;
+}
+.bot-chair__quote {
+  margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
+  max-width: 62ch;
+  font-size: clamp(1.3rem, 1.9vw, 1.85rem);
+  line-height: 1.5;
+  letter-spacing: .01em;
+  color: var(--ink);
+}
+.bot-chair__attr {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(.9rem, 1.4vw, 1.25rem);
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+}
+.bot-chair__attr::before {
+  content: "";
+  align-self: center;
+  width: clamp(40px, 5vw, 64px);
+  height: 3px;
+  background: var(--emerald);
+}
+.bot-chair__name { font-weight: 700; color: var(--navy); font-size: clamp(1.05rem, 1.3vw, 1.25rem); }
+.bot-chair__role { color: var(--slate); font-size: clamp(.95rem, 1.1vw, 1.1rem); }
+
+.bot-chair__photo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+}
+.bot-chair__photo {
+  width: clamp(240px, 26vw, 380px);
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(21, 42, 59, .18), 0 0 0 6px var(--mist);
+}
+@media (max-width: 899px) {
+  .bot-chair__grid { grid-template-columns: minmax(0, 1fr); }
+  .bot-chair__photo-wrap { order: -1; } /* photo above the quote on mobile */
+  .bot-chair__photo { width: clamp(200px, 58vw, 260px); }
+}
+
+/* ---------- MEET THE BOARD — trustee card grid ---------- */
+.bot-meet { background: #fefefe; /* user request 2026-11-17: was var(--mist) */ }
+.bot-grid {
+  margin-top: clamp(1.75rem, 3vh, 2.5rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
+  gap: clamp(.9rem, 1.4vw, 1.4rem);
+}
+.bot-card {
+  background: var(--gray); /* #EFEFEF — user request 2026-11-17: light gray card, no shadow */
+  padding: clamp(1.4rem, 2vw, 1.9rem) clamp(.9rem, 1.3vw, 1.3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: .3rem; /* tightened again (user request 2026-11-17): name → committees → parent as one tight block */
+}
+.bot-card__photo {
+  /* Full-width photo (user request 2026-11-17): fills the card's content width,
+     height stays exactly what the old circular image occupied
+     (its diameter: clamp(120px, 11vw, 164px)). Square corners. */
+  width: 100%;
+  height: clamp(120px, 11vw, 164px);
+  object-fit: cover;
+  box-shadow: 0 3px 12px rgba(21, 42, 59, .18);
+}
+.bot-card__name {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: clamp(1.02rem, 1.2vw, 1.2rem);
+  line-height: 1.3;
+}
+/* Committee lines — the live site lists each on its own row */
+.bot-card__roles {
+  margin: 0;
+  display: grid;
+  gap: .18rem;
+  font-size: .8rem;
+  line-height: 1.45;
+  color: var(--slate);
+}
+.bot-card__parent {
+  font-size: .8rem;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--blue);
+}
+.bot-card__employer {
+  margin-top: .1rem;
+  padding-top: .7rem;
+  border-top: 1px solid var(--line);
+  width: 100%;
+  font-size: .85rem;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- CHAIRMAN EMERITUS + TRUSTEES EMERITI (gray field) ---------- */
+.bot-emeritus { background: var(--gray); }
+.bot-emeritus__block + .bot-emeritus__block {
+  margin-top: clamp(2rem, 4vh, 3rem);
+  padding-top: clamp(1.75rem, 3.5vh, 2.5rem);
+  border-top: 1px solid rgba(0, 73, 124, .25); /* hairline divider (tuition-table language) */
+}
+.bot-emeritus__name-lg {
+  margin: clamp(.9rem, 1.8vh, 1.3rem) 0 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  line-height: 1.4;
+  font-weight: 700;
+  color: var(--ink);
+}
+.bot-emeritus__list {
+  margin-top: clamp(.9rem, 1.8vh, 1.3rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: .45rem clamp(1.5rem, 3vw, 3rem);
+}
+.bot-emeritus__list span {
+  font-size: clamp(.98rem, 1.1vw, 1.1rem);
+  line-height: 1.6;
+  color: var(--slate);
+}
+
+/* ---------- BOARD CHAIRS — timeline row (white field) ---------- */
+.bot-chairs { background: #ffffff; }
+.bot-chairs__row {
+  margin-top: clamp(2rem, 4vh, 3rem);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.bot-chair-item {
+  border-top: 3px solid rgba(0, 73, 124, .22);
+  padding-top: clamp(.9rem, 1.6vh, 1.2rem);
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+}
+.bot-chair-item.is-current { border-top-color: var(--emerald); }
+.bot-chair-item__name {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: clamp(1.02rem, 1.3vw, 1.25rem);
+  line-height: 1.3;
+}
+.bot-chair-item__years {
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--slate);
+  font-size: clamp(1.4rem, 2.2vw, 2.1rem);
+  line-height: 1;
+}
+.bot-chair-item.is-current .bot-chair-item__years { color: var(--emerald); }
+
+/* ---------- BOARD COMMITTEES — navy field accordion.
+   Reuses the .us-belong__* row machinery (white +/− circles, connector line,
+   grid-rows open/close) — those classes are self-contained and read correctly
+   on any dark field. ---------- */
+.bot-comm { background: var(--navy); }
+.bot-comm .fh-title {
+  font-size: clamp(1.9rem, 3vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+}
+.bot-comm__acc { margin-top: clamp(1.5rem, 3vh, 2.25rem); max-width: min(1100px, 100%); }
+
+/* Committee placeholder photos — random picsum.photos images (seeded per
+   committee so they're stable across reloads). Text left / photo right inside
+   the expanded panel; square corners per design language. Swap for real
+   committee photos later. */
+.bot-comm__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(230px, 28vw, 360px);
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  align-items: center;
+  padding-bottom: clamp(1rem, 2vh, 1.4rem); /* breathing room before the row closes */
+}
+.bot-comm__row > p { margin-bottom: 0; }
+.bot-comm__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+}
+@media (max-width: 899px) {
+  .bot-comm__row { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* "Meet the Board of Trustees" + "Board Chairs" titles — SAME size/weight as
+   the hero title (.us-hero__col-a > .fh-title): clamp(2rem, 3.8vw, 3.4rem) @ 700.
+   (user request 2026-11-17; line-height 1.12 + letter-spacing inherit from .fh-title) */
+.bot-meet .fh-title,
+.bot-chairs .fh-title {
+  font-size: clamp(2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+}
