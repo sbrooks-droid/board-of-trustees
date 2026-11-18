@@ -44,10 +44,19 @@ npm run build      # → dist/  (asset URLs prefixed with /home/board-of-trustee
   (scratchpad `ywm/fullshot.js` does full-page + lazy-image-wait captures;
   run with `NODE_PATH="C:/Users/JVC13/.lmstudio/scratchpads/7z/node_modules"`).
 
-## Publish workflow (SFTP → MyWPEngine staging) — NOT SET UP YET
+## Publish workflow (SFTP → MyWPEngine staging)
 
-- Intended live URL: https://flinthillstg.wpenginepowered.com/home/board-of-trustees/
-  (`vite.config.ts` already sets `base: '/home/board-of-trustees/'` for production).
-- No SFTP upload script exists yet — copy one from a sibling (e.g. the apply-engage or
-  financial-aid scratchpad scripts) and point it at `/home/board-of-trustees`.
-- **NEVER publish to SFTP unless the user explicitly says to.** Default: dev server only.
+- **Live URL:** https://flinthillstg.wpenginepowered.com/home/board-of-trustees/
+- **"publish" = build + SFTP upload** via `C:\Users\JVC13\.lmstudio\scratchpads\1be\sftp-upload-board-of-trustees.js`:
+  - LOCAL: `E:/Flint Hill Website/Board-of-Trustees/dist` → REMOTE: `/home/board-of-trustees` (inside the home dir on the FTP)
+  - Run with: `NODE_PATH="C:/Users/JVC13/.lmstudio/scratchpads/7z/node_modules" node "C:\Users\JVC13\.lmstudio\scratchpads\1be\sftp-upload-board-of-trustees.js"`
+  - The script connects on `flinthillstg.sftp.wpengine.com:2222` (creds DPAPI-encrypted at
+    `C:/Users/JVC13/.fh-sftp/cred`, decrypted at runtime), creates the remote folders, uploads
+    every file in `dist/`, and prints a remote listing.
+- **Production asset paths:** `vite.config.ts` sets `base: '/home/board-of-trustees/'` for
+  production builds (dev uses relative). If the built `index.html` ever references `/assets/...`
+  without the folder, that's the bug — check this first.
+- **NEVER publish to SFTP unless the user explicitly says to** (e.g. "publish", "let's publish").
+  Default: dev server only; wait for the go-ahead.
+- After any SFTP publish, **Purge Cache in MyWPEngine** (user does this manually) or logged-out
+  visitors see stale HTML pointing at old asset hashes.
