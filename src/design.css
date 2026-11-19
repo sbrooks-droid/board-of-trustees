@@ -455,7 +455,7 @@ body {
   padding-right: var(--fh-edge);
 }
 .us-statement p {
-  max-width: min(1150px, 100%);
+  max-width: none; /* full width of the band (section padding only) */
   margin: 0;
   font-size: clamp(1.05rem, 1.9vw, 1.7rem); /* .fh-subtitle scale */
   line-height: 1.45;
@@ -2416,7 +2416,6 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   padding: clamp(.9rem, 1.8vh, 1.3rem) clamp(1rem, 2vw, 1.6rem);
   background: var(--mist);
   border-left: 3px solid var(--emerald);
-  max-width: min(1000px, 100%);
   font-size: clamp(.98rem, 1.15vw, 1.15rem);
   line-height: 1.65;
   color: var(--slate);
