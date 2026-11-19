@@ -317,17 +317,23 @@ body {
    Radius/center are in vw because clip-path can't reference the box's own size.
    Verified numerically against the fixed hero-height formula at 1280–2560px.
    Tune: bigger radius = flatter sweep; center X further right = shallower cut. */
-.us-hero__col-b { min-width: 0; }
+.us-hero__col-b { min-width: 0; container-type: size; /* lets the photo's clip use cqh = % of THIS box's height */ }
 .us-hero__photo {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  clip-path: circle(30vw at calc(100% - 20.5vw) 50%);
-}@media (max-width: 1179px) {
-  .us-hero__photo { clip-path: circle(34vw at calc(100% - 16vw) 50%); }
-}@media (max-width: 899px) {
-  .us-hero__photo { clip-path: none; }
+  /* TRUE CIRCLE left-edge arc (user request — must hold at ANY desktop width):
+     a real circle of radius = the photo box's OWN HEIGHT (100cqh), centered
+     on the vertical midline with its leftmost point exactly on the box's left
+     edge → one perfect circular sweep from top edge to bottom edge, shallow
+     like FA's reference ("bigger than a circle of the same height").
+     Radius ≥ hero height guarantees the right/top/bottom corners stay inside
+     the circle for every realistic box ratio (verified up to W/H ≈ 1.9), so
+     no circular cut can ever appear on the right side at any viewport.
+     (Replaces: vw-based clip circle — broke below ~43.8vw hero height;
+      and border-radius ellipse — wrong curvature, not a true circle.) */
+  clip-path: circle(100cqh at 100cqh 50%);
 }
 
 /* Hero title — SAME SIZE + WEIGHT as Apply & Engage's hero title
@@ -552,7 +558,11 @@ body {
 
   /* Photo drops below the copy as a 4:3 crop of the square source (explicit box —
      the stretch-to-text sizing doesn't apply in single-column mode) */
-  .us-hero__photo { height: auto; aspect-ratio: 4 / 3; }
+  .us-hero__photo {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    clip-path: none; /* phones keep the plain rectangle (desktop-only arc look) */
+  }
 }@media (min-width: 1180px) {
   .us-hero {
     /* FULL BLEED — no vertical padding at any width (user request). */
@@ -564,6 +574,7 @@ body {
       + 1.12 * clamp(2rem, 3.8vw, 3.4rem) /* AE title: .fh-title lh 1.12 × its font-size */
       + clamp(2rem, 5vh, 4rem) /* AE title margin-bottom */
       + 620px * min(calc((100vw - 112px) / 1408px), max(calc(100vw / 2400px), calc(100vh / 1500px))) /* AE composition box */
+      + 64px /* former .us-header-band — now part of the hero so the glass menu overlays the photo (user request) */
     );
   }
 
@@ -578,7 +589,10 @@ body {
      from hero top = (64 + H)/2 from field top, for ANY hero height H.
      Hero box, photo full-bleed and clip geometry are all untouched. */
   .us-hero__col-a {
-    padding-top: calc(clamp(4rem, 9vh, 7rem) - 32px);
+    /* Band removed → hero starts under the fixed header. Equal padding keeps
+       the text dead-center in the visible field AND clears the ~90px bar:
+       top = clamp+32 (old band 64 + old pad clamp-32 — same page position). */
+    padding-top: calc(clamp(4rem, 9vh, 7rem) + 32px);
     padding-bottom: calc(clamp(4rem, 9vh, 7rem) + 32px);
   }
 }
@@ -598,17 +612,16 @@ body {
 }
 
 /* ============================================================
-   SITE HEADER CLEARANCE (desktop >=1180px)
-   The ported site header is position:fixed and ~90px tall at the top
-   of the page. A navy band keeps its translucent wash sitting over
-   brand navy and pushes the hero content below the bar — without
-   touching any approved photo/circle geometry (the .us-hero box
-   itself is unchanged). Hidden on mobile, where the header is a
-   short logo+burger bar that already clears --us-pad-top.
+   SITE HEADER OVERLAY (user request 2026-11-19)
+   The opaque navy band above the hero is REMOVED: it kept the photo from
+   reaching under the fixed header, so the glass effect never showed.
+   The hero now starts at y=0 and the shared header's translucent wash +
+   blur (fh-menu.css) sits over the image on load — the "glass menu over
+   the hero" look. The band's 64px was folded into .us-hero's height
+   formula so total visible navy is unchanged; col-a padding keeps the
+   text clear of the bar.
    ============================================================ */
-.us-header-band { display: none; }@media (min-width: 1180px) {
-  .us-header-band { display: block; height: 64px; background: var(--navy); }
-}
+.us-header-band { display: none; } /* hidden at ALL widths now — glass overlay instead of opaque band */
 
 /* ============================================================
    APPLY & ENGAGE — page sections (.ae-*)
