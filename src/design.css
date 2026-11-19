@@ -302,8 +302,8 @@ body {
   justify-content: center;
   padding-top: clamp(4rem, 9vh, 7rem);
   padding-bottom: clamp(4rem, 9vh, 7rem);
-  padding-left: calc(var(--fh-edge) * 2);
-  padding-right: calc(var(--fh-edge) * 2); /* matters on mobile — text is left-aligned in a wide column on desktop */
+  padding-left: var(--fh-home-edge);
+  padding-right: var(--fh-edge); /* matters on mobile — text is left-aligned in a wide column on desktop */
 }
 
 /* Second column — campus photo. Fills the ENTIRE column — full hero height,
@@ -592,7 +592,8 @@ body {
    at every viewport width. Supersedes .us-hero__col-a's padding-left.
    ============================================================ */
 .us-hero__col-a {
-  padding-left: calc(var(--fh-edge) + max(0px, (100vw - var(--fh-content-max)) / 2));
+  /* Apply & Engage canonical — supersedes the old edge+centering offset */
+  padding-left: var(--fh-home-edge);
 }@media (max-width: 899px) { /* mobile keeps the previous simple menu */
 }
 
@@ -1985,7 +1986,8 @@ ae-composition .us-grade { font-size: 3.79cqw; }
 }
 .ae-pro-copy {
   position: absolute;
-  left: max(4vw, calc((100vw - 1200px) / 2));
+  /* Aligned to the hero title/lead edge (--fh-home-edge), same as every other section */
+  left: var(--fh-home-edge);
   right: auto;
   bottom: clamp(20px, 4vh, 44px);
   display: flex;
@@ -2198,7 +2200,11 @@ ae-composition .us-grade { font-size: 3.79cqw; }
   width: 100%;
   max-width: var(--fh-content-max);
   margin-inline: auto;
-  padding: clamp(4rem, 8vh, 6.5rem) calc(var(--fh-edge) * 2);
+  /* Edges = Apply & Engage's .ae-belong .ae-block exactly (home-edge left, small right before the photo). */
+  padding-top: clamp(4rem, 8vh, 6.5rem);
+  padding-bottom: clamp(4rem, 8vh, 6.5rem);
+  padding-left: var(--fh-home-edge);
+  padding-right: clamp(1.5rem, 3vw, 4rem);
 }
 /* Title = SAME size/weight as AE's belong title (.ae-belong .fh-title), white on the blue field */
 .us-belong .fh-title { font-size: clamp(1.9rem, 3vw, 3rem); font-weight: 700; color: #ffffff; }
@@ -2445,6 +2451,27 @@ ae-composition .us-grade { font-size: 3.79cqw; }
    ============================================================ */
 
 /* ---------- THE BOARD CHAIR — quote left, circular headshot right ---------- */
+/* ============================================================
+    BOT ALIGNMENT (2026-11-19 — Apply & Engage is canonical)
+    Every section's left/right margins = --fh-home-edge, exactly like AE's
+    symmetric sections (.ae-team/.ae-visit/.ae-faq). Inner .fh-inner caps
+    are uncapped so text starts exactly at the home edge on all widths.
+    ============================================================ */
+.bot-chair,
+.bot-meet,
+.bot-emeritus,
+.bot-chairs,
+.bot-comm {
+  padding-left: var(--fh-home-edge);
+  padding-right: var(--fh-home-edge);
+}
+/* Uncap the inner block so text starts exactly at --fh-home-edge on all widths */
+.bot-chair .fh-inner,
+.bot-meet .fh-inner,
+.bot-emeritus .fh-inner,
+.bot-chairs .fh-inner,
+.bot-comm .fh-inner { max-width: none; }
+
 .bot-chair { background: #ffffff; }
 .bot-chair__grid {
   display: grid;
