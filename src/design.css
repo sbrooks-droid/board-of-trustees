@@ -356,7 +356,7 @@ body {
 .us-hero__col-a p {
   margin: clamp(1.25rem, 2.5vh, 2rem) 0 0;
   max-width: 62ch;
-  font-size: clamp(1rem, 1.3vw, 1.25rem); /* .fh-body scale — smaller than the old statement */
+  font-size: var(--fh-subtitle-size); /* Subtitle / intro line spec (matches homepage hero) */
   line-height: 1.65;
   letter-spacing: .01em;
   color: rgba(255, 255, 255, 0.94);
