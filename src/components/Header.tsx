@@ -19,6 +19,11 @@ const UTILITY_LINKS: NavLink[] = [
 // Lookup helper for CTA links / remaining links
 const utilLink = (label: string) => UTILITY_LINKS.find((l) => l.label === label)!;
 
+/* Links to our own staging site open in the SAME tab; every other destination opens in a new tab */
+const STG_ORIGIN = 'https://flinthillstg.wpenginepowered.com';
+const linkProps = (href: string): { target?: string; rel?: string } =>
+  href.startsWith(STG_ORIGIN) ? {} : { target: '_blank', rel: 'noopener noreferrer' };
+
 const SEARCH_URL = 'https://flinthillstg.wpenginepowered.com/search/';
 
 // Husky Login icon — kept visible in the overlay's bottom-left stack
@@ -239,21 +244,21 @@ export const Header: React.FC = () => {
       <header className={`fhs-site-header${compact ? ' is-compact' : ''}${overlayOpen ? ' is-menu-open' : ''}`}>
         <div className="fhs-site-header-body">
           {/* Logo — left, max-width 180px at any viewport width */}
-          <a className="fhs-site-header-logo" href={HOME_URL} target="_blank" rel="noopener noreferrer" aria-label="Flint Hill School — home">
+          <a className="fhs-site-header-logo" href={HOME_URL} {...linkProps(HOME_URL)} aria-label="Flint Hill School — home">
             <img src={LOGO_URL} alt="Flint Hill School" />
           </a>
 
           {/* Right group: quick links (left of search) | search | summer/husky (menu-open only) | burger */}
           <div className="fhs-site-header-right">
             <nav className="fhs-site-header-quick" aria-label="Quick links">
-              <a href={utilLink('Apply Now').href} target="_blank" rel="noopener noreferrer">Apply Now</a>
+              <a href={utilLink('Apply Now').href} {...linkProps(utilLink('Apply Now').href)}>Apply Now</a>
               <span className="fhs-quick-divider" aria-hidden="true" />
-              <a href={utilLink('Visit Campus').href} target="_blank" rel="noopener noreferrer">Visit Campus</a>
+              <a href={utilLink('Visit Campus').href} {...linkProps(utilLink('Visit Campus').href)}>Visit Campus</a>
               <span className="fhs-quick-divider" aria-hidden="true" />
-              <a href={utilLink('Request Info').href} target="_blank" rel="noopener noreferrer">Request Info</a>
+              <a href={utilLink('Request Info').href} {...linkProps(utilLink('Request Info').href)}>Request Info</a>
             </nav>
 
-            <a className="fhs-site-header-search" href={SEARCH_URL} target="_blank" rel="noopener noreferrer" aria-label="Search">
+            <a className="fhs-site-header-search" href={SEARCH_URL} {...linkProps(SEARCH_URL)} aria-label="Search">
               <span className="fhs-search-label">Search</span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
@@ -263,24 +268,24 @@ export const Header: React.FC = () => {
 
             {/* Search | divider | Summer on the Hill | divider | Husky Hub + icon — left of the burger/X */}
             <span className="fhs-bar-divider" aria-hidden="true" />
-            <a className="fhs-bar-summer" href={utilLink('Summer on the Hill').href} target="_blank" rel="noopener noreferrer">
+            <a className="fhs-bar-summer" href={utilLink('Summer on the Hill').href} {...linkProps(utilLink('Summer on the Hill').href)}>
               Summer on the Hill
             </a>
             <span className="fhs-bar-divider fhs-husky-divider" aria-hidden="true" />
-            <a className="fhs-bar-husky" href={HUSKY_LOGIN.url} target="_blank" rel="noopener noreferrer">
+            <a className="fhs-bar-husky" href={HUSKY_LOGIN.url} {...linkProps(HUSKY_LOGIN.url)}>
               <span className="fhs-husky-label">Husky Hub</span>
               <img src={HUSKY_LOGIN.img} alt="" width={24} height={25} />
             </a>
 
             {/* Mobile only: search + Husky Hub icons (no hover labels), right of the logo / left of the burger-X */}
             <span className="fhs-bar-icons">
-              <a href={SEARCH_URL} target="_blank" rel="noopener noreferrer" aria-label="Search">
+              <a href={SEARCH_URL} {...linkProps(SEARCH_URL)} aria-label="Search">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <circle cx="11" cy="11" r="7" />
                   <line x1="21" y1="21" x2="16.5" y2="16.5" />
                 </svg>
               </a>
-              <a href={HUSKY_LOGIN.url} target="_blank" rel="noopener noreferrer" aria-label="Husky Hub">
+              <a href={HUSKY_LOGIN.url} {...linkProps(HUSKY_LOGIN.url)} aria-label="Husky Hub">
                 <img src={HUSKY_LOGIN.img} alt="" width={30} height={31} />
               </a>
             </span>
@@ -343,7 +348,7 @@ export const Header: React.FC = () => {
               {activeItem?.links && (
               <>
                 {activeItem.links.map((link) => (
-                  <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
+                  <a key={link.label} href={link.href} {...linkProps(link.href)}>
                     {link.label}
                   </a>
                 ))}
@@ -351,7 +356,7 @@ export const Header: React.FC = () => {
             )}
             {activeItem?.athletics && (
               <>
-                <a href={ATHLETICS_PROGRAM_URL} target="_blank" rel="noopener noreferrer">
+                <a href={ATHLETICS_PROGRAM_URL} {...linkProps(ATHLETICS_PROGRAM_URL)}>
                   Athletics Program
                 </a>
                 {ATHLETICS_SEASONS.map((s) => (
@@ -381,7 +386,7 @@ export const Header: React.FC = () => {
                     {seasonOpen[s.season] && (
                       <div className="fhs-menu-overlay-season-teams">
                         {s.teams.map((team) => (
-                          <a key={team.label} href={team.href} target="_blank" rel="noopener noreferrer">
+                          <a key={team.label} href={team.href} {...linkProps(team.href)}>
                             {team.label}
                           </a>
                         ))}
@@ -398,8 +403,7 @@ export const Header: React.FC = () => {
           <a
             className={`fhs-menu-dock-card fhs-menu-dock-left ${HIGHLIGHTS_CARD.tone}`}
             href={HIGHLIGHTS_CARD.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...linkProps(HIGHLIGHTS_CARD.href)}
           >
             <img src={HIGHLIGHTS_CARD.img} alt="" loading="lazy" />
             <span className="fhs-menu-dock-card-label fhs-hh">{HIGHLIGHTS_CARD.labelA} <span>{HIGHLIGHTS_CARD.labelB}</span></span>
@@ -410,7 +414,7 @@ export const Header: React.FC = () => {
           <nav className="fhs-menu-dock" aria-label="More links">
             <div className="fhs-menu-dock-cards">
               {FEATURED_CARDS.map((c) => (
-                <a key={c.title} href={c.href} target="_blank" rel="noopener noreferrer" className={`fhs-menu-dock-card ${c.tone}`}>
+                <a key={c.title} href={c.href} {...linkProps(c.href)} className={`fhs-menu-dock-card ${c.tone}`}>
                   <img src={c.img} alt="" loading="lazy" />
                   {c.logo ? (
                     <img className="fhs-menu-dock-card-logo" src={c.logo} alt="" loading="lazy" />
@@ -427,16 +431,16 @@ export const Header: React.FC = () => {
             <div className="fhs-menu-dock-links">
               {/* Mobile only (this list is hidden on desktop): quick links moved here, above Flint Hill Futures */}
               {['Apply Now', 'Visit Campus', 'Request Info'].map((label) => (
-                <a key={label} href={utilLink(label).href} target="_blank" rel="noopener noreferrer">
+                <a key={label} href={utilLink(label).href} {...linkProps(utilLink(label).href)}>
                   {label}
                 </a>
               ))}
               {['Flint Hill Futures', 'Podcast', 'Summer on the Hill'].map((label) => (
-                <a key={label} href={utilLink(label).href} target="_blank" rel="noopener noreferrer">
+                <a key={label} href={utilLink(label).href} {...linkProps(utilLink(label).href)}>
                   {label}
                 </a>
               ))}
-              <a href={utilLink('Give').href} target="_blank" rel="noopener noreferrer">
+              <a href={utilLink('Give').href} {...linkProps(utilLink('Give').href)}>
                 Give
               </a>
             </div>
